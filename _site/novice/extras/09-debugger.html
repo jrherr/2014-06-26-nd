@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+      <title>Using a Debugger</title>
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.ico" />
+<link href="../../css/bootstrap/bootstrap.css" rel="stylesheet" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="../../css/bootstrap/bootstrap-responsive.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="../../css/swc.css" />
+<link rel="stylesheet" type="text/css" href="../../css/swc-bootstrap.css" />
+<link rel="alternate" type="application/rss+xml" title="The Software Carpentry Blog" href="/feed.xml"/>
+<meta charset="UTF-8" />
+<meta http-equiv="last-modified" content="" />
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="../../css/lesson.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="banner">
+  <a href="http://software-carpentry.org" title="Software Carpentry">
+    <img alt="Software Carpentry banner" src="../../img/software-carpentry-banner.png" />
+  </a>
+</div>
+
+
+      <div class="row-fluid">
+        <div class="span10 offset1">
+	  <!-- start content -->
+          
+          <h1>Using a Debugger</h1>
+          
+          <p>Programmers spend a lot of time debugging,
+so it&#39;s worth learning how to do it systematically.
+We&#39;ll talk about tools first,
+since they&#39;ll make everything else less painful.
+We&#39;ll then talk about some techniques.
+Throughout,
+we&#39;ll assume that we built the right thing the wrong way;
+requirements errors are actually a major cause of software project failure,
+but they&#39;re out of scope for now.</p>
+
+<p>When something goes wrong in a program like this:</p>
+
+<pre><code>import sys
+
+def insert_or_increment(counts, species, number):
+    # Look for species in list.
+    for (s, n) in counts:
+        # If we have seen it before, add to its count and exit.
+        if s == species:
+            n += number
+            return
+    # Haven't seen it before, so add it.
+    counts.append([species, number])
+
+source = open(sys.argv[1], 'r')
+counts = []
+for line in source:
+    species, number = line.strip().split(',')
+    insert_or_increment(counts, species, int(number))
+counts.sort()
+for (s, n) in counts:
+    print '%s: %d' % (s, n)
+</code></pre>
+
+<p>most people start debugging by adding <code>print</code> statements:</p>
+
+<pre><code>def insert_or_increment(counts, species, number):
+    # Look for species in list.
+    print 'insert_or_increment(', counts, ',', species, ',', number, ')'
+    for (s, n) in counts:
+        print '...checking against', s, n
+        # If we have seen it before, add to its count and exit.
+        if s == species:
+            n += number
+            print '...species matched, so returning with', counts
+            return
+    # Haven't seen it before, so add it.
+    counts.append([species, number])
+    print 'new species, so returning with', counts
+</code></pre>
+
+<p>and then paging through output like this:</p>
+
+<pre><code>insert_or_increment( [] , marlin , 5 )
+new species, so returning with [['marlin', 5]]
+insert_or_increment( [['marlin', 5]] , shark , 2 )
+...checking against marlin 5
+new species, so returning with [['marlin', 5], ['shark', 2]]
+insert_or_increment( [['marlin', 5], ['shark', 2]] , marlin , 1 )
+...checking against marlin 5
+...species matched, so returning with [['marlin', 5], ['shark', 2]]
+insert_or_increment( [['marlin', 5], ['shark', 2]] , turtle , 5 )
+...checking against marlin 5
+...checking against shark 2
+new species, so returning with [['marlin', 5], ['shark', 2], ['turtle', 5]]
+insert_or_increment( [['marlin', 5], ['shark', 2], ['turtle', 5]] , herring , 3 )
+...checking against marlin 5
+...checking against shark 2
+...checking against turtle 5
+new species, so returning with [['marlin', 5], ['shark', 2], ['turtle', 5], ['herring', 3]]
+insert_or_increment( [['marlin', 5], ['shark', 2], ['turtle', 5], ['herring', 3]] , herring , 4 )
+...checking against marlin 5
+...checking against shark 2
+...checking against turtle 5
+...checking against herring 3
+...species matched, so returning with [['marlin', 5], ['shark', 2], ['turtle', 5], ['herring', 3]]
+insert_or_increment( [['marlin', 5], ['shark', 2], ['turtle', 5], ['herring', 3]] , marlin , 1 )
+...checking against marlin 5
+...species matched, so returning with [['marlin', 5], ['shark', 2], ['turtle', 5], ['herring', 3]]
+herring: 3
+marlin: 5
+shark: 2
+turtle: 5
+</code></pre>
+
+<p>This works for small problems&mdash;i.e.,
+it gives the programmer enough insight into the problem to fix it&mdash;but
+it doesn&#39;t scale to larger programs or harder problems.
+First,
+adding print statements is a good way to add typos,
+particularly when we have to modify the block structure of the program
+to fit them in.
+It&#39;s also time-consuming to type things,
+delete them,
+type more in,
+and so on.
+It&#39;s especially tedious if we&#39;re working in a language like C++, Fortran, or Java
+that requires compilation.
+Finally,
+if we&#39;re printing lots of information,
+it&#39;s all too easy to miss the crucial bit as it flies by on the screen.</p>
+
+<p>A <a href="../gloss.html#debugger">debugger</a> is
+a program that controls the execution of some
+<a href="../gloss.html#target-program">target program</a>&mdash;typically,
+one that has a bug in it that we&#39;re trying to track down.
+Debuggers are more properly called <em>symbolic</em> debuggers
+because they show us the source code we wrote,
+rather than raw machine instructions
+(although debuggers exists to do that too).
+While the target program is running,
+the debugger can:</p>
+
+<ul>
+  <li>pause, resume, or restart it;</li>
+  <li>display or change values in it; and</li>
+  <li>watch for calls to particular functions or changes to particular variables.</li>
+</ul>
+
+<p>Here&#39;s what a typical debugger looks like in action:</p>
+
+<p><img src="img/debugger-screenshot.png" alt="Debugger in Action" /></p>
+
+<p>The most important parts of this display are
+the source code window and the call stack display.
+The former shows us where we are in the program;
+the latter,
+what variables are in scope and what their values are.
+Most debuggers also display whatever the target program has printed to standard output recently.</p>
+
+<p>We typically start a debugging session by setting
+a <a href="../gloss.html#breakpoint">breakpoints</a> in the target program.
+This tells the debugger to suspend the target program whenever it reaches that line
+so that we can inspect the program&#39;s state.
+For example,
+the image above shows the state of the program
+when adding four herrings to the list of species&#39; counts.
+The program is paused while it processes the first entry in the list
+to let us explore our data and call stack,
+without having to modify the code in any way.
+We can also use the debugger to:</p>
+
+<ul>
+  <li><a href="../gloss.html#single-step">single-step</a>,
+i.e., execute one statement at a time;</li>
+  <li><a href="../gloss.html#step-into">step into</a> function calls;</li>
+  <li><a href="../gloss.html#step-over">step over</a> them; or</li>
+  <li>run to the end of the current function.</li>
+</ul>
+
+<p>This allows us to see how values are changing,
+which branches the program is actually taking,
+which functions are actually being called,
+and most importantly,
+why.</p>
+
+<p><img src="img/debugger-screenshot.png" alt="A Debugger in Action" /></p>
+
+<p>But debuggers can do much more than this.
+For example,
+most debuggers let us move up and down the call stack,
+so that when our program is halted,
+we can see the current values of variables in <em>any</em> active function call,
+not just the one we&#39;re in.</p>
+
+<p>Most debuggers also support
+<a href="../gloss.html#conditional-breakpoint">conditional breakpoint</a>,
+which only takes effect if some condition is met.
+For example,
+we can set a breakpoint inside a loop so that the target program only halts
+when the loop index is greater than 100.
+This saves us having to step through 100 uninteresting iterations of the loop.</p>
+
+<p>We can also use the debugger to modify values while the program is running.
+For example,
+suppose we have a theory about why a bug is occurring.
+We can run the target program to that point,
+change the value of a particular variable,
+then resume the target program.
+This trick is sometimes used to test out error-handling code,
+since it&#39;s easier to change <code>time_spent_waiting</code> to 600 seconds in debugger
+than to pull out the network cable and wait ten minutes&hellip;</p>
+
+	  <!-- end content -->
+	</div>
+      </div>
+
+      <div class="footer">
+  <a class="label swc-blue-bg" href="https://www.facebook.com/SoftwareCarpentry">Facebook</a>
+  <a class="label swc-blue-bg" href="https://plus.google.com/+Software-carpentryOrg">Google+</a>
+  <a class="label swc-blue-bg" href="https://twitter.com/swcarpentry">Twitter</a>
+  <a class="label swc-blue-bg" href="https://github.com/swcarpentry">GitHub</a>
+  <a class="label swc-blue-bg" href="http://software-carpentry.org/feed.xml">RSS</a>
+  <a class="label swc-blue-bg" href="../../LICENSE.html">License</a>
+  <a class="bugreport label swc-blue-bg" href="mailto:info@software-carpentry.org?subject=bug%20in%20novice/extras/09-debugger.md">Bug Report</a>
+</div>
+
+    </div>
+    <!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="../../js/jquery-1.9.1.min.js"></script>
+<script src="../../js/bootstrap/bootstrap.min.js"></script>
+
+  </body>
+</html>

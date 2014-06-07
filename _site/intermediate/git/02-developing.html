@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+      <title>The Git Development Workflow</title>
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.ico" />
+<link href="../../css/bootstrap/bootstrap.css" rel="stylesheet" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="../../css/bootstrap/bootstrap-responsive.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="../../css/swc.css" />
+<link rel="stylesheet" type="text/css" href="../../css/swc-bootstrap.css" />
+<link rel="alternate" type="application/rss+xml" title="The Software Carpentry Blog" href="/feed.xml"/>
+<meta charset="UTF-8" />
+<meta http-equiv="last-modified" content="" />
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="../../css/lesson.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="banner">
+  <a href="http://software-carpentry.org" title="Software Carpentry">
+    <img alt="Software Carpentry banner" src="../../img/software-carpentry-banner.png" />
+  </a>
+</div>
+
+
+      <div class="row-fluid">
+        <div class="span10 offset1">
+	  <!-- start content -->
+          
+          <h1>The Git Development Workflow</h1>
+          
+          <p>An important best practice for scientific software developers is to
+focus on making <em>incremental changes</em>.  In this section, we&#39;ll focus
+on the basic techniques for saving your work using Git.  In this
+lesson, you&#39;ll learn a third use for the checkout command, how to work
+with development branches, and then how to save revisions in the
+staging area.</p>
+
+<h2 id="objectives">Objectives</h2>
+
+<p>After this lesson, students should be able to:</p>
+
+<ul>
+  <li>Create and manipulate development branches using <code>git checkout</code> and
+<code>git branch</code>.</li>
+  <li>Inspect the changes they have made to their files using <code>git status</code>
+and <code>git diff</code>.</li>
+  <li>Add and remove changes from the staging area using <code>git add</code>, <code>git
+reset</code>, and <code>git rm</code>.</li>
+  <li>Save versions of their work using <code>git commit</code>.</li>
+</ul>
+
+<h2 id="development-branches">Development Branches</h2>
+
+<p>In the last lesson we cloned a repository and explored its history.
+We also learned about HEAD, a special <em>pointer</em> to the revision of our
+project that we most recently checked out.  We call lightweight
+pointers to revisions in Git <em>branches</em>.  This is confusing at
+first, because many newcomers to Git think of branches as part of the
+structure of the repository&#39;s history, instead of pointers to it.</p>
+
+<p>The best way to think of branches is to first imagine your repository as a
+notebook shared by several collaborators in your laboratory, with
+bookmarks (the <em>branches</em>) on the page of their most recent experiment.
+Every time somebody performs an experiment, they move their bookmark
+to the page of the newest experiment.  Since laboratory paper is
+cheap, researchers take notes of experiments that might fail, and
+<em>reset</em> their notes whenever they don&#39;t like an outcome.  Any time
+somebody wants to keep track of one of their collaborators, they just
+need to look up their bookmarks.  Since bookmarks are cheap, some of
+the scientists track multiple experiments, even risky ones that might
+not pan out, with their bookmarks.  The bookmarks themselves are not
+the entries in the notebook, but they are a handy way to keep track of
+active work.</p>
+
+<p>In Git, a branch is a reference that follows your development.  When
+you create new revisions, your current branch will automatically move
+to new commits you make.  Branches are also primary tools for sharing
+and collaboration, as they allow you to refer others to
+work-in-progress (and scientific software development is always
+work-in-progress).</p>
+
+<p>When a repository is created, Git creates a branch called <code>master</code>.
+Unlike HEAD, the only thing special about <code>master</code> is that it&#39;s the
+default name given to this branch.  It&#39;s generally not a great idea to
+work directly on <code>master</code>, so we&#39;ll start this lesson by creating a new
+branch from it for development.</p>
+
+<p>By default, Git creates branches that point to the currently
+checked-out revision.  We would like to start our development at the
+most up-to-date version of the repository, so we check out our local
+copy of the <code>master</code> branch first.  This <code>checkout</code> command performs
+two actions.  First, it checks out the repository to the revision
+pointed to by the <code>master</code> branch, in this case: <code>61fd2bc</code>.  Second,
+it <em>activates</em> the <code>master</code> branch.  Keep in mind, Git will
+automatically move the active branch pointer for you when you make
+commits.</p>
+
+<pre><code>$ git checkout master
+Switched to branch 'master'
+</code></pre>
+
+<p>We can create and activate a branch in the same step by adding the
+<code>-b</code> flag to <code>git checkout</code>.  Since later we&#39;ll be fixing an error
+in the  file <code>python_pipeline.ipy</code>, we&#39;ll name the branch
+<code>fix_pipeline</code>.</p>
+
+<pre><code>$ git checkout -b pipeline_fix
+Switched to a new branch 'pipeline_fix'
+</code></pre>
+
+<p>We can see the current branches available with <code>git branch</code>, but this
+command is much more useful if we add the <code>-v</code> flag (for verbose).
+Note that <code>git branch</code> lists the local branches in our repository,
+<code>master</code> and <code>pipeline_fix</code>, which we just created.  The <code>*</code> next to
+<code>pipeline_fix</code> indicates that it is active.</p>
+
+<pre><code>$ git branch -v
+  master       61fd2bc Made fixes to Python pipeline
+* pipeline_fix 61fd2bc Made fixes to Python pipeline
+</code></pre>
+
+<p>Now that we&#39;ve created our development branch, let&#39;s start preparing
+some changes to our repository.</p>
+
+<h3 id="checkpoint-1">Checkpoint 1</h3>
+
+<ul>
+  <li><strong>[1A]</strong> Why do <code>master</code> and <code>pipeline_fix</code> point to the same
+revision even though they are different branches?</li>
+  <li><strong>[1B]</strong> The <code>--decorate</code> argument to <code>git log</code> will annotate your
+history view with the location of your current branches.  Try
+calling <code>git log --oneline --decorate</code>.  Discuss with your partner
+what you think <code>origin/master</code> refers to.</li>
+  <li><strong>[1C]</strong> The <code>DETACHED HEAD</code> state occurs when the repository does
+not have an active branch, frequently after checking out a commit or
+remote reference.  Try calling the command <code>git checkout 61fd</code> and
+explaining the output message to your partner.</li>
+  <li><strong>[1D]</strong> You can use <code>git branch -D</code> to delete a branch that is not
+active.  Remember that this only deletes your local reference to a
+commit.  Try deleting the <code>master</code> branch in your repository by
+calling <code>git branch -D master</code>.</li>
+</ul>
+
+<h2 id="seeing-changes">Seeing Changes</h2>
+
+<p>In the previous lesson, we used <code>git checkout</code> to undo some changes
+we had made to a file.  We also learned about <code>diff</code> output, which is
+a common way for computers to tell us how two text files differ.  In
+this section, we&#39;ll learn about the <code>git status</code> and <code>git diff</code>
+commands, which help us see changes in our repository.  We&#39;ll also learn
+how to use the <code>git show</code> command to retrieve a copy of a file from
+anywhere in our repository&#39;s history.</p>
+
+<p>Let&#39;s start by repeating our dangerous idea from the previous lesson,
+and delete an important data file from the repository!</p>
+
+<pre><code>$ rm Lumi.2763.csv
+$ ls Lumi.2763.csv                                                                            ✖
+ls: Lumi.2763.csv: No such file or directory
+</code></pre>
+
+<p>Now that the file is gone, we&#39;d like to ask Git if it was paying
+attention and knows something is missing.  We&#39;re going to do that now
+with one of the most powerful tools in the Git toolbox, the <code>git
+status</code> command.</p>
+
+<pre><code>$ git status
+On branch pipeline_fix
+Changes not staged for commit:
+  (use "git add/rm &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+	deleted:    Lumi.2763.csv
+
+no changes added to commit (use "git add" and/or "git commit -a")
+</code></pre>
+
+<p>Whew, that&#39;s a lot of output.  Let&#39;s take it line by line.  First,
+the <code>git status</code> command reports that we&#39;re on the <code>pipeline_fix</code>
+branch (if it doesn&#39;t, and you don&#39;t understand why, re-read the
+previous section).  Second, Git is reporting that you have made some
+changes, but these are not yet saved.  Git refers to your files as the
+<em>working directory</em>, or sometimes as the <em>working tree</em>.  If you see
+<em>working</em> in the name, be confident that Git is referring to the files
+you can see in front of you with commands like <code>ls</code>.  Finally, Git
+summarizes the changes.  In this case, since a file was completely
+deleted, it reports that <code>Lumi.2763.csv</code> has been deleted.  Let&#39;s
+ignore the deleted file for now, and make some changes to
+<code>python_pipeline.ipy</code>.  I encourage you to make real changes with your
+editor, but for the purposes of this example, I&#39;m going to append a
+line of text to the end of <code>python_pipeline.ipy</code> from the command line.</p>
+
+<pre><code>$ echo "# This is a comment." &gt;&gt; python_pipeline.ipy
+</code></pre>
+
+<p>We call <code>git status</code> to see the effects of modifying
+<code>python_pipeline.ipy</code>.</p>
+
+<pre><code>$ git status
+On branch pipeline_fix
+Changes not staged for commit:
+  (use "git add/rm &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+	deleted:    Lumi.2763.csv
+	modified:   python_pipeline.ipy
+
+no changes added to commit (use "git add" and/or "git commit -a")
+</code></pre>
+
+<p>Okay!  Now we&#39;re going to show you one other type of change you might
+make to a repository, creating a new file.  Let&#39;s call this file,
+<code>documentation.txt</code>, and let&#39;s put the line: <code>TODO</code> in by itself.
+Again, please use your favorite editor for this, here&#39;s a command line
+script for the purposes of this example.</p>
+
+<pre><code>echo "TODO" &gt; documentation.txt
+</code></pre>
+
+<p>We&#39;re going to call <code>git status</code> one more time.</p>
+
+<pre><code>$ git status
+On branch pipeline_fix
+Changes not staged for commit:
+  (use "git add/rm &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+	deleted:    Lumi.2763.csv
+	modified:   python_pipeline.ipy
+
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+
+	documentation.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+</code></pre>
+
+<p>When we deleted and modified files already in the repository, <code>git
+status</code> reported these as <em>unstaged</em> changes.  New files, however, are
+<em>untracked</em>.  The difference is subtle.  New files have no Git
+history, so Git ignores them by default (and tells you it is doing
+so).</p>
+
+<p>Sometimes it isn&#39;t enough to see that files have changed.  We want to
+know how they changed!  The <code>git diff</code> command provides a report of
+the <em>differences</em> in the working directory:</p>
+
+<pre><code>$ git diff
+diff --git a/Lumi.2763.csv b/Lumi.2763.csv
+deleted file mode 100755
+index fb57a5b..0000000
+--- a/Lumi.2763.csv
++++ /dev/null
+@@ -1,10 +0,0 @@
+-    ,  1   ,  2   ,  3   ,  4   ,  5   ,  6   ,  7   ,  8   ,  9   ,  10  ,  11  ,  12
+-  A , 8053 , 9397 ,13857 ,  886 ,  985 , 1204 ,34036 ,34673 ,40062 , 1354 ,  944 , 1014
+-  B , 6538 , 7707 , 7419 , 1098 , 1222 , 1221 ,30437 ,32832 ,31382 , 1217 ,  987 ,  967
+-  C , 4734 , 4971 , 4376 , 1205 , 1386 , 1369 ,26260 ,24249 ,21131 , 1101 ,  871 ,  826
+-  D , 3785 , 2310 , 3154 , 1088 , 1085 , 1038 ,14243 ,12519 ,13091 ,  699 ,  822 ,  772
+-  E , 2538 , 1728 , 2338 , 1063 , 1182 , 1202 ,10260 , 6621 , 6756 ,  922 ,  857 ,  731
+-  F , 1453 , 1128 , 1255 , 1022 ,  951 , 1302 , 2404 , 2900 , 2161 ,  760 ,  640 ,  617
+-  G , 1409 , 1010 , 1080 , 1019 , 1309 ,  975 , 1943 , 1627 , 1495 ,  737 ,  701 ,  696
+-  H , 1476 , 1025 , 1164 , 1120 , 1312 , 1310 , 1916 , 1559 , 1711 , 1040 ,  888 ,  927
+-
+diff --git a/python_pipeline.ipy b/python_pipeline.ipy
+index 2ecc443..1c43ea6 100644
+--- a/python_pipeline.ipy
++++ b/python_pipeline.ipy
+@@ -43,3 +43,4 @@ colorbar()
+ norm_data = h/(bgal_data-0.07)
+ imshow(norm_data)
+
++# This is a comment.
+</code></pre>
+
+<p>We discussed <code>diff</code> output in the previous lesson.  Here <code>git diff</code>
+is showing us the changes in our
+current working directory.  Again, this is a lot of output, but for
+the most part, we only pay attention to the lines that begin with a
+<code>-</code> or a <code>+</code>.  We see that all of the lines in <code>Lumi.2763.csv</code> have
+been deleted, which is what we would expect for a deleted file.  In
+<code>python_pipeline.ipy</code>, our line <code>#This is a comment.</code> has been added.
+The content of our new file is not shown.  Why is that?  Git assumes
+that you only want to see the changes to files you&#39;ve explicitly told
+it about.  How do you tell Git that you&#39;d like to track a new file?
+We do this with the <code>git add</code> command, which we&#39;ll cover in the next
+section.</p>
+
+<h3 id="checkpoint-2">Checkpoint 2</h3>
+
+<ul>
+  <li><strong>[2A]</strong> What is the difference between the way Git uses the words
+<em>unstaged</em> and <em>untracked</em>?  Try explaining this to your partner.</li>
+  <li><strong>[2B]</strong> The <code>git status</code> and <code>git diff</code> commands take a few useful
+flags.  Try calling <code>git status -s</code> and <code>git diff --stat</code> to see
+terse summaries of the status of the repository and changes that
+have been made.</li>
+  <li><strong>[2C]</strong> Sometimes it is useful to see the state of a file before you
+started modifying it.  The <code>git show</code> command provides this
+capability, although the syntax is slightly awkward.  Try calling
+<code>git show HEAD:Lumi.2763.csv</code> and <code>git show master:Lumi.2763.csv</code>,
+then explain the difference between the two <em>revision parameters</em>,
+<code>master</code>, and <code>HEAD</code>.  Consult
+<a href="https://www.kernel.org/pub/software/scm/git/docs/gitrevisions.html">the man page for git revisions</a>
+for some gory details.</li>
+</ul>
+
+<h2 id="staging-changes">Staging Changes</h2>
+
+<p>So far, we have made three changes to the working directory.  We
+deleted a file, we modified a file, and we created a new one.  Let&#39;s
+suppose that we want to leave the deleted file alone for now, and save
+the other changes to our history.  Since we frequently make changes
+across many of our files while we are working, but are only interested
+in saving some of these changes into each revision of the repository,
+Git introduces the concept of <em>staging</em>.</p>
+
+<p>To communicate which changes we would like to save, we put them in the
+<em>stage</em>.  Think of the stage like a set at a camera studio.  We can
+add and remove files from the stage in preparation for saving our
+changes as a revision in history. Everything on the stage will be in
+the picture when it&#39;s taken.  Keep in mind that Git-speak for &quot;create
+a new revision with these changes I have staged&quot; is <em>commit</em>.
+The word &quot;commit&quot; is shamelessly used both as a verb for referring to the
+process of creating revisions, and as a noun for referring to a
+specific revision.</p>
+
+<p><em>Hint: You may see the words index and cache in the documentation or
+ while reading about Git.  These terms both refer to the stage!</em></p>
+
+<p>Let&#39;s get our keyboards dirty!  To add files to the stage, we use the
+<code>git add</code> command.  Let&#39;s try that now with our
+untracked-until-right-now <code>documentation.txt</code>.</p>
+
+<pre><code>$ git add documentation.txt
+</code></pre>
+
+<p>Let&#39;s see what&#39;s changed in <code>git status</code>:</p>
+
+<pre><code>$ git status
+On branch pipeline_fix
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+	new file:   documentation.txt
+
+Changes not staged for commit:
+  (use "git add/rm &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+	deleted:    Lumi.2763.csv
+	modified:   python_pipeline.ipy
+</code></pre>
+
+<p><code>documentation.txt</code> has graduated from an untracked file to a change
+ready to be saved in our next revision!  We can also use <code>git add</code> to
+stage changes to modified files.</p>
+
+<pre><code>$ git add python_pipeline.ipy
+$ git status
+On branch pipeline_fix
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+	new file:   documentation.txt
+	modified:   python_pipeline.ipy
+
+Changes not staged for commit:
+  (use "git add/rm &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+	deleted:    Lumi.2763.csv
+</code></pre>
+
+<p>Let&#39;s see how this affected the output of <code>git diff</code>.</p>
+
+<pre><code>$ git diff
+diff --git a/Lumi.2763.csv b/Lumi.2763.csv
+deleted file mode 100755
+index fb57a5b..0000000
+--- a/Lumi.2763.csv
++++ /dev/null
+@@ -1,10 +0,0 @@
+-    ,  1   ,  2   ,  3   ,  4   ,  5   ,  6   ,  7   ,  8   ,  9   ,  10  ,  11  ,  12
+-  A , 8053 , 9397 ,13857 ,  886 ,  985 , 1204 ,34036 ,34673 ,40062 , 1354 ,  944 , 1014
+-  B , 6538 , 7707 , 7419 , 1098 , 1222 , 1221 ,30437 ,32832 ,31382 , 1217 ,  987 ,  967
+-  C , 4734 , 4971 , 4376 , 1205 , 1386 , 1369 ,26260 ,24249 ,21131 , 1101 ,  871 ,  826
+-  D , 3785 , 2310 , 3154 , 1088 , 1085 , 1038 ,14243 ,12519 ,13091 ,  699 ,  822 ,  772
+-  E , 2538 , 1728 , 2338 , 1063 , 1182 , 1202 ,10260 , 6621 , 6756 ,  922 ,  857 ,  731
+-  F , 1453 , 1128 , 1255 , 1022 ,  951 , 1302 , 2404 , 2900 , 2161 ,  760 ,  640 ,  617
+-  G , 1409 , 1010 , 1080 , 1019 , 1309 ,  975 , 1943 , 1627 , 1495 ,  737 ,  701 ,  696
+-  H , 1476 , 1025 , 1164 , 1120 , 1312 , 1310 , 1916 , 1559 , 1711 , 1040 ,  888 ,  927
+-
+</code></pre>
+
+<p>Why do our staged changes no longer appear in the output of <code>git
+diff</code>?  The answer to this question is subtle.  When we change
+revisions using <code>git checkout</code>, Git sets the contents of our working
+directory <em>and</em> the staging area to the content of the revision.  When
+we call <code>git diff</code>, it is comparing our working directory to the
+staging area.  If we want to see how our <em>staged</em> changes will look in
+history after they&#39;ve been commited, we add the <code>--staged</code> flag to the
+<code>git diff</code> command.</p>
+
+<pre><code>$ git diff --staged
+diff --git a/documentation.txt b/documentation.txt
+new file mode 100644
+index 0000000..1333ed7
+--- /dev/null
++++ b/documentation.txt
+@@ -0,0 +1 @@
++TODO
+diff --git a/python_pipeline.ipy b/python_pipeline.ipy
+index 2ecc443..1c43ea6 100644
+--- a/python_pipeline.ipy
++++ b/python_pipeline.ipy
+@@ -43,3 +43,4 @@ colorbar()
+ norm_data = h/(bgal_data-0.07)
+ imshow(norm_data)
+
++# This is a comment.
+</code></pre>
+
+<p>Sometimes we make a mistake and stage some changes we didn&#39;t mean to.
+It would be easy to remember how to undo changes if Git just used the
+commands <code>stage</code> and <code>unstage</code>.  Unfortunately, Linus Torvalds gave us
+the confusing pair: <code>add</code> and <code>reset</code>.  If you think of the
+photography studio metaphor, then <em>resetting</em> the stage to what it
+looked like in the last photo kind of works, but it&#39;s still confusing.</p>
+
+<p>Let&#39;s reset the staged version of <code>python_pipeline.ipy</code>.  This command
+only affects the staging area, so the file will remain changed, but
+the changes will go from staged to unstaged:</p>
+
+<pre><code>$ git reset python_pipeline.ipy
+Unstaged changes after reset:
+D	Lumi.2763.csv
+M	python_pipeline.ipy
+$ git status
+On branch pipeline_fix
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+	new file:   documentation.txt
+
+Changes not staged for commit:
+  (use "git add/rm &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+	deleted:    Lumi.2763.csv
+	modified:   python_pipeline.ipy
+</code></pre>
+
+<h3 id="checkpoint-3">Checkpoint 3</h3>
+
+<ul>
+  <li><strong>[3A]</strong> The <code>--</code> flag is used to separate filenames and paths from
+the other parameters in a <code>git</code> command line argument.  What is the
+output of <code>git diff -- python_pipeline.ipy</code>?  What other commands
+take a single filename or set of files as an argument?</li>
+  <li><strong>[3B]</strong> Git doesn&#39;t let you stage the removal of a file with the
+<code>git add</code> command.  Try using the command <code>git rm Lumi.2763.csv</code>.
+To unstage this removal, the appropriate command is <code>git reset --
+Lumi.2763.csv</code>.  How would you restore the last revision of
+<code>Lumi.2763.csv</code> from the repository&#39;s history?</li>
+  <li><strong>[3C]</strong> Use your editor to make changes to files in the
+repository.  Experiment with staging changes with <code>git add</code>,
+unstaging them with <code>git reset</code>, deleting files with <code>git rm</code>,
+restoring them with <code>git checkout</code>, and visualizing the staging area
+with <code>git status</code> and <code>git diff</code>.</li>
+</ul>
+
+<h2 id="committing-changes">Committing Changes</h2>
+
+<ul>
+  <li>Walk through <code>git commit</code> using the <code>nano</code> editor.</li>
+  <li>Use email metaphor for <code>git commit</code>.</li>
+  <li>make a couple of commits on the development branch.</li>
+  <li>use <code>git log --decorate</code> to see revisions, how they differ.</li>
+  <li>Explain how Git commits are like lightweight publishing.
+    <ul>
+      <li>Simple to make, yet allow you to easily &quot;sign&quot; revisions of very
+complicated objects.</li>
+      <li>Like a lab notebook.  Can be well-categorized or it can be very
+sketchy.  Use it the way that it complements your workflow.  But
+always commit at the end of the day, even if it&#39;s something you
+will throw away later.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="integrative-exercise">Integrative Exercise</h3>
+
+<ul>
+  <li>Checkout master.  Make a commit.  Now swap the positions of the two
+branches, by either moving the branches with <code>git reset</code> or by
+deleting them and recreating them in the appropriate positions.</li>
+</ul>
+
+<h2 id="review">Review</h2>
+
+<ul>
+  <li>branches</li>
+  <li>viewing changes</li>
+  <li>staging changes</li>
+  <li>committing changes</li>
+</ul>
+
+	  <!-- end content -->
+	</div>
+      </div>
+
+      <div class="footer">
+  <a class="label swc-blue-bg" href="https://www.facebook.com/SoftwareCarpentry">Facebook</a>
+  <a class="label swc-blue-bg" href="https://plus.google.com/+Software-carpentryOrg">Google+</a>
+  <a class="label swc-blue-bg" href="https://twitter.com/swcarpentry">Twitter</a>
+  <a class="label swc-blue-bg" href="https://github.com/swcarpentry">GitHub</a>
+  <a class="label swc-blue-bg" href="http://software-carpentry.org/feed.xml">RSS</a>
+  <a class="label swc-blue-bg" href="../../LICENSE.html">License</a>
+  <a class="bugreport label swc-blue-bg" href="mailto:info@software-carpentry.org?subject=bug%20in%20intermediate/git/02-developing.md">Bug Report</a>
+</div>
+
+    </div>
+    <!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="../../js/jquery-1.9.1.min.js"></script>
+<script src="../../js/bootstrap/bootstrap.min.js"></script>
+
+  </body>
+</html>

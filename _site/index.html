@@ -1,0 +1,213 @@
+--- layout: bootcamp root: . venue: University of Norte Dame address: South Bend, IN, USA country: United-States humandate: Jun 26-27, 2014 humantime: 9:00 am - 4:30 pm startdate: 2014-06-26 enddate: 2014-06-27 latlng: 41.705467, -86.235296 registration:
+restricted instructor: ["Joshua R. Herr", "Sheldon McKay"] contact: joshua.r.herr@gmail.com ---
+<!--
+    Edit the values in the parameter block above to be appropriate for your bootcamp.
+    Please use three-letter month names for the 'humandate' field.
+-->
+
+<h2>General Information</h2>
+
+<p>
+  Software Carpentry at the University of Notre Dame, South Bend, IN
+  <br>Hosted by the...
+  <br>June 26th-27th, 2014
+  <br>9:00 am - 4:30 pm
+  <br>Location TBD
+</p>
+
+<hr/>
+
+<p>
+  <a href="http://software-carpentry.org">Software Carpentry</a>'s mission is to help scientists and engineers become more productive by teaching them basic lab skills for computing like program design, version control, data management, and task automation.
+  This two-day hands-on bootcamp will cover basic concepts and tools; participants will be encouraged to help one another and to apply what they have learned to their own research problems.
+</p>
+
+<!-- This block displays the instructors' names if they are available. -->
+{% if page.instructor %}
+<p>
+  <strong>Instructors:</strong>
+  {{page.instructor | join: ', ' %}}
+</p>
+{% endif %}
+
+<!--
+    Modify this block to reflect the target audience for your bootcamp.
+    In particular, if it is only open to people from a particular institution,
+    or if specialized prerequisite knowledge is required, please mention that.
+-->
+<p>
+  <strong>What:</strong>
+  Our goal is to help scientists and engineers become more productive by teaching them basic computing skills like program design, version control, testing, and task automation. In this two-day bootcamp, short tutorials will alternate with hands-on practical
+  exercises. Participants will be encouraged both to help one another, and to apply what they have learned to their own research problems during and between sessions. Attendants are offered online office hours: regular events to get one-on-one help from
+  Software Carpentry instructors, online.
+</p>
+
+<p>
+  <strong>Who:</strong>
+  The course is aimed at postgraduate students and other scientists who are familiar with basic programming concepts (like loops, conditionals, arrays, and functions) but need help to translate this knowledge into practical tools to help them work more
+  productively.
+</p>
+
+<p>
+  <strong>Content:</strong>
+  The syllabus for this bootcamp will include:
+</p>
+<ul>
+  <li>Using the shell to do more in less time.</li>
+  <li>Using version control to manage and share information.</li>
+  <li>Basic Python programming.</li>
+  <li>How (and how much) to test programs.</li>
+  <li>Documentation and debugging.</li>
+</ul>
+
+<!--
+    This block displays the address and links to a map showing directions.
+-->
+{% if page.latlng %}
+<p>
+  <strong>Where:</strong>
+  {{ page.address }}. Get directions with
+  <a href="http://www.openstreetmap.org/?mlat={{ page.latlng | replace:',','&mlon=' }}&zoom=16">OpenStreetMap</a>
+  or
+  <a href="http://maps.google.com/maps?q={{ page.latlng }}">Google Maps</a>.
+</p>
+{% endif %}
+
+<p>
+  <strong>Registration:</strong>
+  Registration information Website</a>.
+</p>
+<!--
+    Modify the block below if there are any special requirements.
+-->
+<p>
+  <strong>Requirements:</strong>
+  Participants must bring a laptop with a few specific software packages installed (listed below).
+</p>
+
+<!--
+    This block automatically inserts a contact email address if one has been specified for the page.
+    If one hasn't, this block inserts the generic contact address for Software Carpentry. -->
+<p>
+  <strong>Contact</strong>: Please email {% if page.contact %}
+  <a href='mailto:{{page.contact}}'>Josh Herr</a> for more information.
+</p>
+
+<hr>
+<p>
+  <h3>Etherpad Link</h3>
+  <div id="etherpad-link" class="row-fluid">
+    We will use an <a href="https://etherpad.mozilla.org/">Etherpad page</a> to communicate and share notes together throughout the bootcamp.
+  </div>
+
+  <hr>
+
+  <!--
+    Edit this block to show the syllabus and schedule for your bootcamp.
+-->
+  <h2>Schedule</h2>
+
+  <table class="table table-striped">
+    <tr>
+      <td>Tuesday</td>
+      <td>09:00</td>
+      <td><a href="http://jrherr.github.io/2014-04-29-gwu/overview/overview.html">Overview</a>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>09:30</td>
+      <td><a href="http://jrherr.github.io/2014-04-29-gwu/lessons/swc-shell/tutorial.html">Introduction to task automation with the Unix shell</a>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>12:00</td>
+      <td>Lunch break</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>13:00</td>
+      <td><a href="http://software-carpentry.org/v5/novice/python/index.html">Building programs with Python</a>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>16:00</td>
+      <td>Wrap-up</td>
+    </tr>
+    <tr>
+      <td>Wednesday</td>
+      <td>09:00</td>
+      <td><a href="https://jrherr.github.io/2014-04-29-gwu/intermediate/git/">Version control with Git</a>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>12:00</td>
+      <td>Lunch break</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>13:00</td>
+      <td>TBD</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>15:00</td>
+      <td>TBD</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>16:00</td>
+      <td>Wrap-up</td>
+    </tr>
+  </table>
+
+  <!--
+    Edit the setup instructions in _includes/setup.html to reflect your bootcamp.
+    (In particular, most bootcamps teach either Python or R, not both.)
+-->
+
+  {% include setup.html %}
+
+  <hr>
+
+  <div class="span10">
+    <div id="reference" class="row-fluid">
+      <h2>Reference</h2>
+
+      <ul>
+        <li><a href="http://swcarpentry.github.io/2014-01-31-ucsb/lessons/ref/shell.html">The Unix Shell</a>
+        </li>
+        <li><a href="http://swcarpentry.github.io/2014-01-31-ucsb/lessons/ref/python.html">Python</a>
+        </li>
+      </ul>
+
+      <hr>
+
+      <h2>Instructors</h2>
+
+      <div class="media">
+        <img class="media-object pull-left" src="./img/herr.jpg" alt="Josh Herr">
+        <div id="herr.j" class="media-body">
+          Josh Herr is a post-doctoral researcher at Michigan State University in the Department of Microbiology & Molecular Genetics. He holds a B.S. in Biochemistry, M.S. in Plant Biology, and a Ph.D. in Integrative Biology. His research interests introduced
+          him to phylogenetics at the command line and he has transitioned from the lab bench (almost entirely) to the computational analysis of microbial genomes and metagenomes. Josh blogs about his research interests at Cyme & Cystidium and is an editor
+          at the bioinformatics help forum Biostar.
+        </div>
+      </div>
+      <div class="media">
+        <img class="media-object pull-left" src="./img/sheldon.jpg" alt="Sheldon McKay">
+        <div id="mckay.s" class="media-body">
+          Sheldon McKay is a bioinformatics consultant with the Reactome database at the Ontario Institute for Cancer Research. His background is in evolutionary genetics and genomics. He has been working in bioinformatics for a while, and has been involved in
+          the WormBase, ModENCODE, Generic Model Organism Database (GMOD), BioPerl and iPlant projects.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  </body>
+
+  </html>
