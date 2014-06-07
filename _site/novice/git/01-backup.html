@@ -43,7 +43,7 @@
 and which are required once per repository.</li>
     <li>Go through the modify-add-commit cycle for single and multiple files
 and explain where information is stored at each stage.</li>
-    <li>Identify and Use Git revision numbers.</li>
+    <li>Identify and use Git revision numbers.</li>
     <li>Compare files with old versions of themselves.</li>
     <li>Restore old versions of files.</li>
     <li>Configure Git to ignore specific files,
@@ -68,7 +68,7 @@ version control is much better for this than this:</p>
 we need to configure a few things.
 Here&#39;s how Dracula sets up his new laptop:</p>
 
-<pre><code>$ git config --global user.name "Vlad Dracula"
+<pre class="in"><code>$ git config --global user.name "Vlad Dracula"
 $ git config --global user.email "vlad@tran.sylvan.ia"
 $ git config --global color.ui "auto"
 $ git config --global core.editor "nano"
@@ -99,27 +99,28 @@ the flag <code>--global</code> tells Git to use the settings for every project o
 we can start using it.
 Let&#39;s create a directory for our work:</p>
 
-<pre><code>$ mkdir planets
+<pre class="in"><code>$ mkdir planets
 $ cd planets
 </code></pre>
 
-<p>and tell Git to make it a <a href="../gloss.html#repository">repository</a>&mdash;a place where
+<p>and tell Git to make it a <a href="../../gloss.html#repository">repository</a>&mdash;a place where
 Git can store old versions of our files:</p>
 
-<pre><code>$ git init
+<pre class="in"><code>$ git init
 </code></pre>
 
 <p>If we use <code>ls</code> to show the directory&#39;s contents,
 it appears that nothing has changed:</p>
 
-<pre><code>$ ls
+<pre class="in"><code>$ ls
 </code></pre>
 
 <p>But if we add the <code>-a</code> flag to show everything,
 we can see that Git has created a hidden directory called <code>.git</code>:</p>
 
-<pre><code>$ ls -a
-.	..	.git
+<pre class="in"><code>$ ls -a
+</code></pre>
+<pre class="out"><code>.	..	.git
 </code></pre>
 
 <p>Git stores information about the project in this special sub-directory.
@@ -129,8 +130,9 @@ we will lose the project&#39;s history.</p>
 <p>We can check that everything is set up correctly
 by asking Git to tell us the status of our project:</p>
 
-<pre><code>$ git status
-# On branch master
+<pre class="in"><code>$ git status
+</code></pre>
+<pre class="out"><code># On branch master
 #
 # Initial commit
 #
@@ -145,22 +147,31 @@ about the Red Planet&#39;s suitability as a base.
 you can use whatever editor you like.
 In particular, this does not have to be the core.editor you set globally earlier.)</p>
 
-<pre><code>$ nano mars.txt
+<pre class="in"><code>$ nano mars.txt
+</code></pre>
+
+<p>Type the text below into the <code>mars.txt</code> file:</p>
+
+<pre class="in"><code>Cold and dry, but everything is my favorite color
 </code></pre>
 
 <p><code>mars.txt</code> now contains a single line:</p>
 
-<pre><code>$ ls
-mars.txt
-$ cat mars.txt
-Cold and dry, but everything is my favorite color
+<pre class="in"><code>$ ls
+</code></pre>
+<pre class="out"><code>mars.txt
+</code></pre>
+<pre class="in"><code>$ cat mars.txt
+</code></pre>
+<pre class="out"><code>Cold and dry, but everything is my favorite color
 </code></pre>
 
 <p>If we check the status of our project again,
 Git tells us that it&#39;s noticed the new file:</p>
 
-<pre><code>$ git status
-# On branch master
+<pre class="in"><code>$ git status
+</code></pre>
+<pre class="out"><code># On branch master
 #
 # Initial commit
 #
@@ -175,13 +186,14 @@ nothing added to commit but untracked files present (use "git add" to track)
 that Git isn&#39;t keeping track of.
 We can tell Git that it should do so using <code>git add</code>:</p>
 
-<pre><code>$ git add mars.txt
+<pre class="in"><code>$ git add mars.txt
 </code></pre>
 
 <p>and then check that the right thing happened:</p>
 
-<pre><code>$ git status
-# On branch master
+<pre class="in"><code>$ git status
+</code></pre>
+<pre class="out"><code># On branch master
 #
 # Initial commit
 #
@@ -192,13 +204,14 @@ We can tell Git that it should do so using <code>git add</code>:</p>
 #
 </code></pre>
 
-<p>mars.txt is now in the index - Git now knows that it&#39;s supposed to keep track of this file,
+<p>Git now knows that it&#39;s supposed to keep track of <code>mars.txt</code>,
 but it hasn&#39;t yet recorded any changes for posterity as a commit.
 To get it to do that,
 we need to run one more command:</p>
 
-<pre><code>$ git commit -m "Starting to think about Mars"
-[master (root-commit) f22b25e] Starting to think about Mars
+<pre class="in"><code>$ git commit -m "Starting to think about Mars"
+</code></pre>
+<pre class="out"><code>[master (root-commit) f22b25e] Starting to think about Mars
  1 file changed, 1 insertion(+)
  create mode 100644 mars.txt
 </code></pre>
@@ -218,8 +231,9 @@ so that we can write a longer message.</p>
 
 <p>If we run <code>git status</code> now:</p>
 
-<pre><code>$ git status
-# On branch master
+<pre class="in"><code>$ git status
+</code></pre>
+<pre class="out"><code># On branch master
 nothing to commit, working directory clean
 </code></pre>
 
@@ -227,8 +241,9 @@ nothing to commit, working directory clean
 If we want to know what we&#39;ve done recently,
 we can ask Git to show us the project&#39;s history using <code>git log</code>:</p>
 
-<pre><code>$ git log
-commit f22b25e3233b4645dabd0d81e651fe074bd8e73b
+<pre class="in"><code>$ git log
+</code></pre>
+<pre class="out"><code>commit f22b25e3233b4645dabd0d81e651fe074bd8e73b
 Author: Vlad Dracula &lt;vlad@tran.sylvan.ia&gt;
 Date:   Thu Aug 22 09:51:46 2013 -0400
 
@@ -260,17 +275,19 @@ so that our filesystem doesn&#39;t become cluttered
 (Again, we&#39;ll edit with <code>nano</code> and then <code>cat</code> the file to show its contents;
 you may use a different editor, and don&#39;t need to <code>cat</code>.)</p>
 
-<pre><code>$ nano mars.txt
+<pre class="in"><code>$ nano mars.txt
 $ cat mars.txt
-Cold and dry, but everything is my favorite color
+</code></pre>
+<pre class="out"><code>Cold and dry, but everything is my favorite color
 The two moons may be a problem for Wolfman
 </code></pre>
 
 <p>When we run <code>git status</code> now,
 it tells us that a file it already knows about has been modified:</p>
 
-<pre><code>$ git status
-# On branch master
+<pre class="in"><code>$ git status
+</code></pre>
+<pre class="out"><code># On branch master
 # Changes not staged for commit:
 #   (use "git add &lt;file&gt;..." to update what will be committed)
 #   (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
@@ -282,14 +299,18 @@ no changes added to commit (use "git add" and/or "git commit -a")
 
 <p>The last line is the key phrase:
 &quot;no changes added to commit&quot;.
-We have changed this file in our working tree, but we haven&#39;t promoted those changes to the index or saved them as as commit. 
+We have changed this file,
+but we haven&#39;t told Git we will want to save those changes
+(which we do with <code>git add</code>)
+much less actually saved them.
 Let&#39;s double-check our work using <code>git diff</code>,
 which shows us the differences between
 the current state of the file
 and the most recently saved version:</p>
 
-<pre><code>$ git diff
-diff --git a/mars.txt b/mars.txt
+<pre class="in"><code>$ git diff
+</code></pre>
+<pre class="out"><code>diff --git a/mars.txt b/mars.txt
 index df0654a..315bf3a 100644
 --- a/mars.txt
 +++ b/mars.txt
@@ -317,8 +338,9 @@ the <code>+</code> markers in the first column show where we are adding lines.</
 
 <p>Let&#39;s commit our change:</p>
 
-<pre><code>$ git commit -m "Concerns about Mars's moons on my furry friend"
-# On branch master
+<pre class="in"><code>$ git commit -m "Concerns about Mars's moons on my furry friend"
+</code></pre>
+<pre class="out"><code># On branch master
 # Changes not staged for commit:
 #   (use "git add &lt;file&gt;..." to update what will be committed)
 #   (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
@@ -329,12 +351,13 @@ no changes added to commit (use "git add" and/or "git commit -a")
 </code></pre>
 
 <p>Whoops:
-Git won&#39;t commit because we didn&#39;t use <code>git add</code> first - there&#39;s nothing in the index and nothing for git to make a commit out of!
-Remember to promote our work from the working tree to the index first using &#39;git add&#39;:</p>
+Git won&#39;t commit because we didn&#39;t use <code>git add</code> first.
+Let&#39;s fix that:</p>
 
-<pre><code>$ git add mars.txt
+<pre class="in"><code>$ git add mars.txt
 $ git commit -m "Concerns about Mars's moons on my furry friend"
-[master 34961b1] Concerns about Mars's moons on my furry friend
+</code></pre>
+<pre class="out"><code>[master 34961b1] Concerns about Mars's moons on my furry friend
  1 file changed, 1 insertion(+)
 </code></pre>
 
@@ -352,9 +375,9 @@ but <em>not</em> commit the work we&#39;re doing on the conclusion
 <p>To allow for this,
 Git has a special staging area
 where it keeps track of things that have been added to
-the current <a href="../gloss.html#change-set">change set</a>
+the current <a href="../../gloss.html#change-set">change set</a>
 but not yet committed.
-<code>git add</code> puts things in this area (the index),
+<code>git add</code> puts things in this area,
 and <code>git commit</code> then copies them to long-term storage (as a commit):</p>
 
 <p><img src="img/git-staging-area.svg" alt="The Git Staging Area" /></p>
@@ -365,13 +388,16 @@ and into long-term storage.
 First,
 we&#39;ll add another line to the file:</p>
 
-<pre><code>$ nano mars.txt
+<pre class="in"><code>$ nano mars.txt
 $ cat mars.txt
-Cold and dry, but everything is my favorite color
+</code></pre>
+<pre class="out"><code>Cold and dry, but everything is my favorite color
 The two moons may be a problem for Wolfman
 But the Mummy will appreciate the lack of humidity
-$ git diff
-diff --git a/mars.txt b/mars.txt
+</code></pre>
+<pre class="in"><code>$ git diff
+</code></pre>
+<pre class="out"><code>diff --git a/mars.txt b/mars.txt
 index 315bf3a..b36abfd 100644
 --- a/mars.txt
 +++ b/mars.txt
@@ -387,7 +413,7 @@ we&#39;ve added one line to the end of the file
 Now let&#39;s put that change in the staging area
 and see what <code>git diff</code> reports:</p>
 
-<pre><code>$ git add mars.txt
+<pre class="in"><code>$ git add mars.txt
 $ git diff
 </code></pre>
 
@@ -398,8 +424,9 @@ and what&#39;s currently in the directory.
 However,
 if we do this:</p>
 
-<pre><code>$ git diff --staged
-diff --git a/mars.txt b/mars.txt
+<pre class="in"><code>$ git diff --staged
+</code></pre>
+<pre class="out"><code>diff --git a/mars.txt b/mars.txt
 index 315bf3a..b36abfd 100644
 --- a/mars.txt
 +++ b/mars.txt
@@ -414,23 +441,25 @@ the last committed change
 and what&#39;s in the staging area.
 Let&#39;s save our changes:</p>
 
-<pre><code>$ git commit -m "Thoughts about the climate"
-[master 005937f] Thoughts about the climate
+<pre class="in"><code>$ git commit -m "Thoughts about the climate"
+</code></pre>
+<pre class="out"><code>[master 005937f] Thoughts about the climate
  1 file changed, 1 insertion(+)
 </code></pre>
 
 <p>check our status:</p>
 
-<pre><code>$ git status
-# On branch master
+<pre class="in"><code>$ git status
+</code></pre>
+<pre class="out"><code># On branch master
 nothing to commit, working directory clean
 </code></pre>
 
 <p>and look at the history of what we&#39;ve done so far:</p>
 
-<pre><code>$ git log
-git log
-commit 005937fbe2a98fb83f0ade869025dc2636b4dad5
+<pre class="in"><code>$ git log
+</code></pre>
+<pre class="out"><code>commit 005937fbe2a98fb83f0ade869025dc2636b4dad5
 Author: Vlad Dracula &lt;vlad@tran.sylvan.ia&gt;
 Date:   Thu Aug 22 10:14:07 2013 -0400
 
@@ -456,8 +485,9 @@ we use <code>git diff</code> again,
 but refer to old versions
 using the notation <code>HEAD~1</code>, <code>HEAD~2</code>, and so on:</p>
 
-<pre><code>$ git diff HEAD~1 mars.txt
-diff --git a/mars.txt b/mars.txt
+<pre class="in"><code>$ git diff HEAD~1 mars.txt
+</code></pre>
+<pre class="out"><code>diff --git a/mars.txt b/mars.txt
 index 315bf3a..b36abfd 100644
 --- a/mars.txt
 +++ b/mars.txt
@@ -465,8 +495,10 @@ index 315bf3a..b36abfd 100644
  Cold and dry, but everything is my favorite color
  The two moons may be a problem for Wolfman
 +But the Mummy will appreciate the lack of humidity
-$ git diff HEAD~2 mars.txt
-diff --git a/mars.txt b/mars.txt
+</code></pre>
+<pre class="in"><code>$ git diff HEAD~2 mars.txt
+</code></pre>
+<pre class="out"><code>diff --git a/mars.txt b/mars.txt
 index df0654a..b36abfd 100644
 --- a/mars.txt
 +++ b/mars.txt
@@ -476,10 +508,13 @@ index df0654a..b36abfd 100644
 +But the Mummy will appreciate the lack of humidity
 </code></pre>
 
-<p>Recall above we mentioned that revisions have a relational structure, for now just like a simple chain; in git, the word <code>HEAD</code> always refers to the most recent end of that chain, the last revision you tacked on.  In other words, <code>HEAD</code> means &quot;the most recently saved version&quot;.  Every time you do git commit, a new revision is tacked onto the end of that chain, and <code>HEAD</code> moves forward to point at that new latest revision.  We can step backwards on the chain using the <code>~</code> notation;
-<code>HEAD~1</code> (pronounced &quot;head minus one&quot;)
+<p>In this way,
+we build up a chain of revisions.
+The most recent end of the chain is referred to as <code>HEAD</code>;
+we can refer to previous revisions using the <code>~</code> notation,
+so <code>HEAD~1</code> (pronounced &quot;head minus one&quot;)
 means &quot;the previous revision&quot;,
-and <code>HEAD~123</code> goes back 123 revisions from where we are now.</p>
+while <code>HEAD~123</code> goes back 123 revisions from where we are now.</p>
 
 <p>We can also refer to revisions using
 those long strings of digits and letters
@@ -492,8 +527,9 @@ Our first commit was given the ID
 f22b25e3233b4645dabd0d81e651fe074bd8e73b,
 so let&#39;s try this:</p>
 
-<pre><code>$ git diff f22b25e3233b4645dabd0d81e651fe074bd8e73b mars.txt
-diff --git a/mars.txt b/mars.txt
+<pre class="in"><code>$ git diff f22b25e3233b4645dabd0d81e651fe074bd8e73b mars.txt
+</code></pre>
+<pre class="out"><code>diff --git a/mars.txt b/mars.txt
 index df0654a..b36abfd 100644
 --- a/mars.txt
 +++ b/mars.txt
@@ -507,8 +543,9 @@ index df0654a..b36abfd 100644
 but typing random 40-character strings is annoying,
 so Git lets us use just the first few:</p>
 
-<pre><code>$ git diff f22b25e mars.txt
-diff --git a/mars.txt b/mars.txt
+<pre class="in"><code>$ git diff f22b25e mars.txt
+</code></pre>
+<pre class="out"><code>diff --git a/mars.txt b/mars.txt
 index df0654a..b36abfd 100644
 --- a/mars.txt
 +++ b/mars.txt
@@ -525,16 +562,18 @@ we can save changes to files and see what we&#39;ve changed&#8212;how
 can we restore older versions of things?
 Let&#39;s suppose we accidentally overwrite our file:</p>
 
-<pre><code>$ nano mars.txt
+<pre class="in"><code>$ nano mars.txt
 $ cat mars.txt
-We will need to manufacture our own oxygen
+</code></pre>
+<pre class="out"><code>We will need to manufacture our own oxygen
 </code></pre>
 
 <p><code>git status</code> now tells us that the file has been changed,
 but those changes haven&#39;t been staged:</p>
 
-<pre><code>$ git status
-# On branch master
+<pre class="in"><code>$ git status
+</code></pre>
+<pre class="out"><code># On branch master
 # Changes not staged for commit:
 #   (use "git add &lt;file&gt;..." to update what will be committed)
 #   (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
@@ -547,9 +586,10 @@ no changes added to commit (use "git add" and/or "git commit -a")
 <p>We can put things back the way they were
 by using <code>git checkout</code>:</p>
 
-<pre><code>$ git checkout HEAD mars.txt
+<pre class="in"><code>$ git checkout HEAD mars.txt
 $ cat mars.txt
-Cold and dry, but everything is my favorite color
+</code></pre>
+<pre class="out"><code>Cold and dry, but everything is my favorite color
 The two moons may be a problem for Wolfman
 But the Mummy will appreciate the lack of humidity
 </code></pre>
@@ -562,7 +602,7 @@ which is the last saved revision.
 If we want to go back even further,
 we can use a revision identifier instead:</p>
 
-<pre><code>$ git checkout f22b25e mars.txt
+<pre class="in"><code>$ git checkout f22b25e mars.txt
 </code></pre>
 
 <p>It&#39;s important to remember that
@@ -579,7 +619,7 @@ the commit in which we made the change we&#39;re trying to get rid of:</p>
   <p>If you read the output of <code>git status</code> carefully,
 you&#39;ll see that it includes this hint:</p>
 
-  <pre><code>(use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+  <pre class="in"><code>(use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
 </code></pre>
 
   <p>As it says,
@@ -606,14 +646,15 @@ like backup files created by our editor
 or intermediate files created during data analysis.
 Let&#39;s create a few dummy files:</p>
 
-<pre><code>$ mkdir results
+<pre class="in"><code>$ mkdir results
 $ touch a.dat b.dat c.dat results/a.out results/b.out
 </code></pre>
 
 <p>and see what Git says:</p>
 
-<pre><code>$ git status
-# On branch master
+<pre class="in"><code>$ git status
+</code></pre>
+<pre class="out"><code># On branch master
 # Untracked files:
 #   (use "git add &lt;file&gt;..." to include in what will be committed)
 #
@@ -631,9 +672,10 @@ so let&#39;s tell Git to ignore them.</p>
 
 <p>We do this by creating a file in the root directory of our project called <code>.gitignore</code>.</p>
 
-<pre><code>$ nano .gitignore
+<pre class="in"><code>$ nano .gitignore
 $ cat .gitignore
-*.dat
+</code></pre>
+<pre class="out"><code>*.dat
 results/
 </code></pre>
 
@@ -645,7 +687,9 @@ Git would continue to track them.)</p>
 <p>Once we have created this file,
 the output of <code>git status</code> is much cleaner:</p>
 
-<pre><code># On branch master
+<pre class="in"><code>$ git status
+</code></pre>
+<pre class="out"><code># On branch master
 # Untracked files:
 #   (use "git add &lt;file&gt;..." to include in what will be committed)
 #
@@ -659,18 +703,20 @@ but everyone we&#39;re sharing our repository with will probably want to ignore
 the same things that we&#39;re ignoring.
 Let&#39;s add and commit <code>.gitignore</code>:</p>
 
-<pre><code>$ git add .gitignore
+<pre class="in"><code>$ git add .gitignore
 $ git commit -m "Add the ignore file"
 $ git status
-# On branch master
+</code></pre>
+<pre class="out"><code># On branch master
 nothing to commit, working directory clean
 </code></pre>
 
 <p>As a bonus,
 using <code>.gitignore</code> helps us avoid accidentally adding files to the repository that we don&#39;t want.</p>
 
-<pre><code>$ git add a.dat
-The following paths are ignored by one of your .gitignore files:
+<pre class="in"><code>$ git add a.dat
+</code></pre>
+<pre class="out"><code>The following paths are ignored by one of your .gitignore files:
 a.dat
 Use -f if you really want to add them.
 fatal: no files added
@@ -680,8 +726,9 @@ fatal: no files added
 we can use <code>git add -f</code> to force Git to add something.
 We can also always see the status of ignored files if we want:</p>
 
-<pre><code>$ git status --ignored
-# On branch master
+<pre class="in"><code>$ git status --ignored
+</code></pre>
+<pre class="out"><code># On branch master
 # Ignored files:
 #  (use "git add -f &lt;file&gt;..." to include in what will be committed)
 #
@@ -713,22 +760,18 @@ and the local repository (where snapshots are permanently recorded).</li>
 
 </div>
 
-<div class="challenges">
-
-  <h4 id="challenges">Challenges</h4>
-
-  <ol>
-    <li>
-      <p>Create a new Git repository on your computer called <code>bio</code>.
+<div class="challenge">
+  <p>Create a new Git repository on your computer called <code>bio</code>.
 Write a three-line biography for yourself in a file called <code>me.txt</code>,
 commit your changes,
 then modify one line and add a fourth and display the differences
 between its updated state and its original state.</p>
-    </li>
-    <li>
-      <p>The following sequence of commands creates one Git repository inside another:</p>
+</div>
 
-      <pre><code>cd           # return to home directory
+<div class="challenge">
+  <p>The following sequence of commands creates one Git repository inside another:</p>
+
+  <pre class="in"><code>cd           # return to home directory
 mkdir alpha  # make a new directory alpha
 cd alpha     # go into alpha
 git init     # make the alpha directory a Git repository
@@ -737,10 +780,7 @@ cd beta      # go into alpha/beta
 git init     # make the beta sub-directory a Git repository
 </code></pre>
 
-      <p>Why is it a bad idea to do this?</p>
-    </li>
-  </ol>
-
+  <p>Why is it a bad idea to do this?</p>
 </div>
 
 	  <!-- end content -->
@@ -748,13 +788,13 @@ git init     # make the beta sub-directory a Git repository
       </div>
 
       <div class="footer">
-  <a class="label swc-blue-bg" href="https://www.facebook.com/SoftwareCarpentry">Facebook</a>
-  <a class="label swc-blue-bg" href="https://plus.google.com/+Software-carpentryOrg">Google+</a>
+  <a class="label swc-blue-bg" href="admin@software-carpentry.org">Email</a>
   <a class="label swc-blue-bg" href="https://twitter.com/swcarpentry">Twitter</a>
-  <a class="label swc-blue-bg" href="https://github.com/swcarpentry">GitHub</a>
   <a class="label swc-blue-bg" href="http://software-carpentry.org/feed.xml">RSS</a>
+  <a class="label swc-blue-bg" href="https://github.com/swcarpentry">GitHub</a>
+  <a class="label swc-blue-bg" href="irc://moznet/sciencelab">IRC</a>
   <a class="label swc-blue-bg" href="../../LICENSE.html">License</a>
-  <a class="bugreport label swc-blue-bg" href="mailto:info@software-carpentry.org?subject=bug%20in%20novice/git/01-backup.md">Bug Report</a>
+  <a class="bugreport label swc-blue-bg" href="mailto:admin@software-carpentry.org?subject=bug%20in%20novice/git/01-backup.md">Bug Report</a>
 </div>
 
     </div>

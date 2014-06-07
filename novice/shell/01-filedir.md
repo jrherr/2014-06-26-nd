@@ -2,7 +2,6 @@
 layout: lesson
 root: ../..
 title: Files and Directories
-level: novice
 ---
 <div class="objectives" markdown="1">
 
@@ -30,6 +29,7 @@ let's open a shell window:
 ~~~
 $
 ~~~
+{:class="in"}
 
 The dollar sign is a [prompt](../../gloss.html#prompt),
 which shows us that the shell is waiting for input;
@@ -43,8 +43,12 @@ it shows us who the shell thinks we are:
 
 ~~~
 $ whoami
+~~~
+{:class="in"}
+~~~
 vlad
 ~~~
+{:class="out"}
 
 More specifically, when we type `whoami` the shell:
 
@@ -68,8 +72,12 @@ which is Vlad's [home directory](../../gloss.html#home-directory):
 
 ~~~
 $ pwd
+~~~
+{:class="in"}
+~~~
 /users/vlad
 ~~~
+{:class="out"}
 
 > #### Alphabet Soup
 > 
@@ -125,10 +133,14 @@ which stands for "listing":
 
 ~~~
 $ ls
+~~~
+{:class="in"}
+~~~
 bin          data      mail       music
 notes.txt    papers    pizza.cfg  solar
 solar.pdf    swc
 ~~~
+{:class="out"}
 
 <img src="img/vlad-homedir.svg" alt="Vlad's Home Directory" />
 
@@ -139,10 +151,14 @@ which tells `ls` to add a trailing `/` to the names of directories:
 
 ~~~
 $ ls -F
+~~~
+{:class="in"}
+~~~
 bin/         data/     mail/      music/
 notes.txt    papers/   pizza.cfg  solar/
 solar.pdf    swc/
 ~~~
+{:class="out"}
 
 Here,
 we can see that `/users/vlad` contains seven [sub-directories](../../gloss.html#sub-directory).
@@ -177,15 +193,19 @@ which doesn't exist.
 
 Now let's take a look at what's in Vlad's `data` directory by running `ls -F data`,
 i.e.,
-the command `ls` with the parameters `-F` and `data`.
-The second parameter&mdash;the one *without* a leading dash&mdash;tells `ls` that
+the command `ls` with the [arguments](../../gloss.html#argument) `-F` and `data`.
+The second argument&mdash;the one *without* a leading dash&mdash;tells `ls` that
 we want a listing of something other than our current working directory:
 
 ~~~
 $ ls -F data
+~~~
+{:class="in"}
+~~~
 amino-acids.txt   elements/     morse.txt
 pdb/              planets.txt   sunspot.txt
 ~~~
+{:class="out"}
 
 The output shows us that there are four text files and two sub-sub-directories.
 Organizing things hierarchically in this way helps us keep track of our work:
@@ -200,14 +220,28 @@ And it doesn't begin with a slash because it's a [relative path](../../gloss.htm
 i.e., it tells `ls` how to find something from where we are,
 rather than from the root of the file system.
 
+> #### Parameters vs. Arguments
+>
+> According to [Wikipedia](https://en.wikipedia.org/wiki/Parameter_(computer_programming)#Parameters_and_arguments),
+> the terms [argument](../../gloss.html#argument) and [parameter](../../gloss.html#parameter)
+> mean slightly different things.
+> In practice,
+> however,
+> most people use them interchangeably or inconsistently,
+> so we will too.
+
 If we run `ls -F /data` (*with* a leading slash) we get a different answer,
 because `/data` is an [absolute path](../../gloss.html#absolute-path):
 
 ~~~
 $ ls -F /data
+~~~
+{:class="in"}
+~~~
 access.log    backup/    hardware.cfg
 network.cfg
 ~~~
+{:class="out"}
 
 The leading `/` tells the computer to follow the path from the root of the filesystem,
 so it always refers to exactly one directory,
@@ -216,17 +250,26 @@ no matter where we are when we run the command.
 What if we want to change our current working directory?
 Before we do this,
 `pwd` shows us that we're in `/users/vlad`,
-and `ls` without any parameters shows us that directory's contents:
+and `ls` without any arguments shows us that directory's contents:
 
 ~~~
 $ pwd
+~~~
+{:class="in"}
+~~~
 /users/vlad
-
+~~~
+{:class="out"}
+~~~
 $ ls
+~~~
+{:class="in"}
+~~~
 bin/         data/     mail/      music/
 notes.txt    papers/   pizza.cfg  solar/
 solar.pdf    swc/
 ~~~
+{:class="out"}
 
 We can use `cd` followed by a directory name to change our working directory.
 `cd` stands for "change directory",
@@ -237,21 +280,31 @@ it changes the shell's idea of what directory we are in.
 ~~~
 $ cd data
 ~~~
+{:class="in"}
 
 `cd` doesn't print anything,
 but if we run `pwd` after it, we can see that we are now in `/users/vlad/data`.
-If we run `ls` without parameters now,
+If we run `ls` without arguments now,
 it lists the contents of `/users/vlad/data`,
 because that's where we now are:
 
 ~~~
 $ pwd
+~~~
+{:class="in"}
+~~~
 /users/vlad/data
-
+~~~
+{:class="out"}
+~~~
 $ ls
+~~~
+{:class="in"}
+~~~
 amino-acids.txt   elements/     morse.txt
 pdb/              planets.txt   sunspot.txt
 ~~~
+{:class="out"}
 
 We now know how to go down the directory tree:
 how do we go up?
@@ -260,14 +313,22 @@ We could use an absolute path:
 ~~~
 $ cd /users/vlad
 ~~~
+{:class="in"}
 
 but it's almost always simpler to use `cd ..` to go up one level:
 
 ~~~
 $ pwd
+~~~
+{:class="in"}
+~~~
 /users/vlad/data
+~~~
+{:class="out"}
+~~~
 $ cd ..
 ~~~
+{:class="in"}
 
 `..` is a special directory name meaning
 "the directory containing this one",
@@ -278,18 +339,26 @@ if we run `pwd` after running `cd ..`, we're back in `/users/vlad`:
 
 ~~~
 $ pwd
+~~~
+{:class="in"}
+~~~
 /users/vlad
 ~~~
+{:class="out"}
 
 The special directory `..` doesn't usually show up when we run `ls`.
 If we want to display it, we can give `ls` the `-a` flag:
 
 ~~~
 $ ls -F -a
+~~~
+{:class="in"}
+~~~
 ./           ../       bin/       data/
 mail/        music/    notes.txt  papers/
 pizza.cfg    solar/    solar.pdf    swc/
 ~~~
+{:class="out"}
 
 `-a` stands for "show all";
 it forces `ls` to show us file and directory names that begin with `.`,
@@ -351,6 +420,7 @@ Nelle can see what files she has using the command:
 ~~~
 $ ls north-pacific-gyre/2012-07-03/
 ~~~
+{:class="in"}
 
 This is a lot to type,
 but she can let the shell do most of the work.
@@ -359,6 +429,7 @@ If she types:
 ~~~
 $ ls no
 ~~~
+{:class="in"}
 
 and then presses tab,
 the shell automatically completes the directory name for her:
@@ -366,6 +437,7 @@ the shell automatically completes the directory name for her:
 ~~~
 $ ls north-pacific-gyre/
 ~~~
+{:class="in"}
 
 If she presses tab again,
 Bash will add `2012-07-03/` to the command,
@@ -397,35 +469,39 @@ and we will see it in many other tools as we go on.
 
 </div>
 
-<div class="challenges" markdown="1">
-
-#### Challenges
-
 <img src="img/filesystem-challenge.svg" alt="Filesystem for Challenge Questions" />
 
-1.  If `pwd` displays `/users/thing`, what will `ls ../backup` display?
-    1.  `../backup: No such file or directory`
-    2.  `2012-12-01 2013-01-08 2013-01-27`
-    3.  `2012-12-01/ 2013-01-08/ 2013-01-27/`
-    4.  `original pnas_final pnas_sub`
+<div class="challenge" markdown="1">
+If `pwd` displays `/users/thing`, what will `ls ../backup` display?
+1.  `../backup: No such file or directory`
+2.  `2012-12-01 2013-01-08 2013-01-27`
+3.  `2012-12-01/ 2013-01-08/ 2013-01-27/`
+4.  `original pnas_final pnas_sub`
+</div>
 
-2.  If `pwd` displays `/users/backup`,
-    and `-r` tells `ls` to display things in reverse order,
-    what command will display:
+<div class="challenge" markdown="1">
+If `pwd` displays `/users/backup`,
+and `-r` tells `ls` to display things in reverse order,
+what command will display:
 
-    ~~~
-    pnas-sub/ pnas-final/ original/
-    ~~~
+~~~
+pnas-sub/ pnas-final/ original/
+~~~
 
-    1.  `ls pwd`
-    2.  `ls -r -F`
-    3.  `ls -r -F /users/backup`
-    4.  Either \#2 or \#3 above, but not \#1.
+1.  `ls pwd`
+2.  `ls -r -F`
+3.  `ls -r -F /users/backup`
+4.  Either \#2 or \#3 above, but not \#1.
+</div>
 
-3.  What does the command `cd` without a directory name do?
-    1.  It has no effect.
-    2.  It changes the working directory to `/`.
-    3.  It changes the working directory to the user's home directory.
-    4.  It produces an error message.
+<div class="challenge" markdown="1">
+What does the command `cd` without a directory name do?
+1.  It has no effect.
+2.  It changes the working directory to `/`.
+3.  It changes the working directory to the user's home directory.
+4.  It produces an error message.
+</div>
 
+<div class="challenge" markdown="1">
+What does the command `ls` do when used with the -s and -h arguments?
 </div>

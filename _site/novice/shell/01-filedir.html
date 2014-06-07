@@ -60,7 +60,7 @@ which hold files or other directories.</p>
 To start exploring them,
 let&#39;s open a shell window:</p>
 
-<pre><code>$
+<pre class="in"><code>$
 </code></pre>
 
 <p>The dollar sign is a <a href="../../gloss.html#prompt">prompt</a>,
@@ -73,8 +73,9 @@ The command&#39;s output is the ID of the current user,
 i.e.,
 it shows us who the shell thinks we are:</p>
 
-<pre><code>$ whoami
-vlad
+<pre class="in"><code>$ whoami
+</code></pre>
+<pre class="out"><code>vlad
 </code></pre>
 
 <p>More specifically, when we type <code>whoami</code> the shell:</p>
@@ -99,8 +100,9 @@ Here,
 the computer&#39;s response is <code>/users/vlad</code>,
 which is Vlad&#39;s <a href="../../gloss.html#home-directory">home directory</a>:</p>
 
-<pre><code>$ pwd
-/users/vlad
+<pre class="in"><code>$ pwd
+</code></pre>
+<pre class="out"><code>/users/vlad
 </code></pre>
 
 <blockquote>
@@ -159,8 +161,9 @@ it&#39;s just a separator.</p>
 <p>Let&#39;s see what&#39;s in Vlad&#39;s home directory by running <code>ls</code>,
 which stands for &quot;listing&quot;:</p>
 
-<pre><code>$ ls
-bin          data      mail       music
+<pre class="in"><code>$ ls
+</code></pre>
+<pre class="out"><code>bin          data      mail       music
 notes.txt    papers    pizza.cfg  solar
 solar.pdf    swc
 </code></pre>
@@ -172,8 +175,9 @@ arranged neatly into columns.
 We can make its output more comprehensible by using the <a href="../../gloss.html#command-line-flag">flag</a> <code>-F</code>,
 which tells <code>ls</code> to add a trailing <code>/</code> to the names of directories:</p>
 
-<pre><code>$ ls -F
-bin/         data/     mail/      music/
+<pre class="in"><code>$ ls -F
+</code></pre>
+<pre class="out"><code>bin/         data/     mail/      music/
 notes.txt    papers/   pizza.cfg  solar/
 solar.pdf    swc/
 </code></pre>
@@ -213,12 +217,13 @@ when someone double-clicks it.</p>
 
 <p>Now let&#39;s take a look at what&#39;s in Vlad&#39;s <code>data</code> directory by running <code>ls -F data</code>,
 i.e.,
-the command <code>ls</code> with the parameters <code>-F</code> and <code>data</code>.
-The second parameter&mdash;the one <em>without</em> a leading dash&mdash;tells <code>ls</code> that
+the command <code>ls</code> with the <a href="../../gloss.html#argument">arguments</a> <code>-F</code> and <code>data</code>.
+The second argument&mdash;the one <em>without</em> a leading dash&mdash;tells <code>ls</code> that
 we want a listing of something other than our current working directory:</p>
 
-<pre><code>$ ls -F data
-amino-acids.txt   elements/     morse.txt
+<pre class="in"><code>$ ls -F data
+</code></pre>
+<pre class="out"><code>amino-acids.txt   elements/     morse.txt
 pdb/              planets.txt   sunspot.txt
 </code></pre>
 
@@ -235,11 +240,24 @@ And it doesn&#39;t begin with a slash because it&#39;s a <a href="../../gloss.ht
 i.e., it tells <code>ls</code> how to find something from where we are,
 rather than from the root of the file system.</p>
 
+<blockquote>
+  <h4 id="parameters-vs-arguments">Parameters vs. Arguments</h4>
+
+  <p>According to <a href="https://en.wikipedia.org/wiki/Parameter_(computer_programming)#Parameters_and_arguments">Wikipedia</a>,
+the terms <a href="../../gloss.html#argument">argument</a> and <a href="../../gloss.html#parameter">parameter</a>
+mean slightly different things.
+In practice,
+however,
+most people use them interchangeably or inconsistently,
+so we will too.</p>
+</blockquote>
+
 <p>If we run <code>ls -F /data</code> (<em>with</em> a leading slash) we get a different answer,
 because <code>/data</code> is an <a href="../../gloss.html#absolute-path">absolute path</a>:</p>
 
-<pre><code>$ ls -F /data
-access.log    backup/    hardware.cfg
+<pre class="in"><code>$ ls -F /data
+</code></pre>
+<pre class="out"><code>access.log    backup/    hardware.cfg
 network.cfg
 </code></pre>
 
@@ -250,13 +268,15 @@ no matter where we are when we run the command.</p>
 <p>What if we want to change our current working directory?
 Before we do this,
 <code>pwd</code> shows us that we&#39;re in <code>/users/vlad</code>,
-and <code>ls</code> without any parameters shows us that directory&#39;s contents:</p>
+and <code>ls</code> without any arguments shows us that directory&#39;s contents:</p>
 
-<pre><code>$ pwd
-/users/vlad
-
-$ ls
-bin/         data/     mail/      music/
+<pre class="in"><code>$ pwd
+</code></pre>
+<pre class="out"><code>/users/vlad
+</code></pre>
+<pre class="in"><code>$ ls
+</code></pre>
+<pre class="out"><code>bin/         data/     mail/      music/
 notes.txt    papers/   pizza.cfg  solar/
 solar.pdf    swc/
 </code></pre>
@@ -267,20 +287,22 @@ which is a bit misleading:
 the command doesn&#39;t change the directory,
 it changes the shell&#39;s idea of what directory we are in.</p>
 
-<pre><code>$ cd data
+<pre class="in"><code>$ cd data
 </code></pre>
 
 <p><code>cd</code> doesn&#39;t print anything,
 but if we run <code>pwd</code> after it, we can see that we are now in <code>/users/vlad/data</code>.
-If we run <code>ls</code> without parameters now,
+If we run <code>ls</code> without arguments now,
 it lists the contents of <code>/users/vlad/data</code>,
 because that&#39;s where we now are:</p>
 
-<pre><code>$ pwd
-/users/vlad/data
-
-$ ls
-amino-acids.txt   elements/     morse.txt
+<pre class="in"><code>$ pwd
+</code></pre>
+<pre class="out"><code>/users/vlad/data
+</code></pre>
+<pre class="in"><code>$ ls
+</code></pre>
+<pre class="out"><code>amino-acids.txt   elements/     morse.txt
 pdb/              planets.txt   sunspot.txt
 </code></pre>
 
@@ -288,14 +310,16 @@ pdb/              planets.txt   sunspot.txt
 how do we go up?
 We could use an absolute path:</p>
 
-<pre><code>$ cd /users/vlad
+<pre class="in"><code>$ cd /users/vlad
 </code></pre>
 
 <p>but it&#39;s almost always simpler to use <code>cd ..</code> to go up one level:</p>
 
-<pre><code>$ pwd
-/users/vlad/data
-$ cd ..
+<pre class="in"><code>$ pwd
+</code></pre>
+<pre class="out"><code>/users/vlad/data
+</code></pre>
+<pre class="in"><code>$ cd ..
 </code></pre>
 
 <p><code>..</code> is a special directory name meaning
@@ -305,15 +329,17 @@ the <a href="../../gloss.html#parent-directory">parent</a> of the current direct
 Sure enough,
 if we run <code>pwd</code> after running <code>cd ..</code>, we&#39;re back in <code>/users/vlad</code>:</p>
 
-<pre><code>$ pwd
-/users/vlad
+<pre class="in"><code>$ pwd
+</code></pre>
+<pre class="out"><code>/users/vlad
 </code></pre>
 
 <p>The special directory <code>..</code> doesn&#39;t usually show up when we run <code>ls</code>.
 If we want to display it, we can give <code>ls</code> the <code>-a</code> flag:</p>
 
-<pre><code>$ ls -F -a
-./           ../       bin/       data/
+<pre class="in"><code>$ ls -F -a
+</code></pre>
+<pre class="out"><code>./           ../       bin/       data/
 mail/        music/    notes.txt  papers/
 pizza.cfg    solar/    solar.pdf    swc/
 </code></pre>
@@ -379,20 +405,20 @@ All 1520 files will go into the same directory.</p>
 <p>If she is in her home directory,
 Nelle can see what files she has using the command:</p>
 
-<pre><code>$ ls north-pacific-gyre/2012-07-03/
+<pre class="in"><code>$ ls north-pacific-gyre/2012-07-03/
 </code></pre>
 
 <p>This is a lot to type,
 but she can let the shell do most of the work.
 If she types:</p>
 
-<pre><code>$ ls no
+<pre class="in"><code>$ ls no
 </code></pre>
 
 <p>and then presses tab,
 the shell automatically completes the directory name for her:</p>
 
-<pre><code>$ ls north-pacific-gyre/
+<pre class="in"><code>$ ls north-pacific-gyre/
 </code></pre>
 
 <p>If she presses tab again,
@@ -427,46 +453,42 @@ but is normally used to indicate the type of data in the file.</li>
 
 </div>
 
-<div class="challenges">
+<p><img src="img/filesystem-challenge.svg" alt="Filesystem for Challenge Questions" /></p>
 
-  <h4 id="challenges">Challenges</h4>
+<div class="challenge">
+  <p>If <code>pwd</code> displays <code>/users/thing</code>, what will <code>ls ../backup</code> display?
+1.  <code>../backup: No such file or directory</code>
+2.  <code>2012-12-01 2013-01-08 2013-01-27</code>
+3.  <code>2012-12-01/ 2013-01-08/ 2013-01-27/</code>
+4.  <code>original pnas_final pnas_sub</code></p>
+</div>
 
-  <p><img src="img/filesystem-challenge.svg" alt="Filesystem for Challenge Questions" /></p>
-
-  <ol>
-    <li>If <code>pwd</code> displays <code>/users/thing</code>, what will <code>ls ../backup</code> display?
-      <ol>
-        <li><code>../backup: No such file or directory</code></li>
-        <li><code>2012-12-01 2013-01-08 2013-01-27</code></li>
-        <li><code>2012-12-01/ 2013-01-08/ 2013-01-27/</code></li>
-        <li><code>original pnas_final pnas_sub</code></li>
-      </ol>
-    </li>
-    <li>
-      <p>If <code>pwd</code> displays <code>/users/backup</code>,
+<div class="challenge">
+  <p>If <code>pwd</code> displays <code>/users/backup</code>,
 and <code>-r</code> tells <code>ls</code> to display things in reverse order,
 what command will display:</p>
 
-      <pre><code>pnas-sub/ pnas-final/ original/
+  <pre><code>pnas-sub/ pnas-final/ original/
 </code></pre>
 
-      <ol>
-        <li><code>ls pwd</code></li>
-        <li><code>ls -r -F</code></li>
-        <li><code>ls -r -F /users/backup</code></li>
-        <li>Either #2 or #3 above, but not #1.</li>
-      </ol>
-    </li>
-    <li>What does the command <code>cd</code> without a directory name do?
-      <ol>
-        <li>It has no effect.</li>
-        <li>It changes the working directory to <code>/</code>.</li>
-        <li>It changes the working directory to the user&#39;s home directory.</li>
-        <li>It produces an error message.</li>
-      </ol>
-    </li>
+  <ol>
+    <li><code>ls pwd</code></li>
+    <li><code>ls -r -F</code></li>
+    <li><code>ls -r -F /users/backup</code></li>
+    <li>Either #2 or #3 above, but not #1.</li>
   </ol>
+</div>
 
+<div class="challenge">
+  <p>What does the command <code>cd</code> without a directory name do?
+1.  It has no effect.
+2.  It changes the working directory to <code>/</code>.
+3.  It changes the working directory to the user&#39;s home directory.
+4.  It produces an error message.</p>
+</div>
+
+<div class="challenge">
+  <p>What does the command <code>ls</code> do when used with the -s and -h arguments?</p>
 </div>
 
 	  <!-- end content -->
@@ -474,13 +496,13 @@ what command will display:</p>
       </div>
 
       <div class="footer">
-  <a class="label swc-blue-bg" href="https://www.facebook.com/SoftwareCarpentry">Facebook</a>
-  <a class="label swc-blue-bg" href="https://plus.google.com/+Software-carpentryOrg">Google+</a>
+  <a class="label swc-blue-bg" href="admin@software-carpentry.org">Email</a>
   <a class="label swc-blue-bg" href="https://twitter.com/swcarpentry">Twitter</a>
-  <a class="label swc-blue-bg" href="https://github.com/swcarpentry">GitHub</a>
   <a class="label swc-blue-bg" href="http://software-carpentry.org/feed.xml">RSS</a>
+  <a class="label swc-blue-bg" href="https://github.com/swcarpentry">GitHub</a>
+  <a class="label swc-blue-bg" href="irc://moznet/sciencelab">IRC</a>
   <a class="label swc-blue-bg" href="../../LICENSE.html">License</a>
-  <a class="bugreport label swc-blue-bg" href="mailto:info@software-carpentry.org?subject=bug%20in%20novice/shell/01-filedir.md">Bug Report</a>
+  <a class="bugreport label swc-blue-bg" href="mailto:admin@software-carpentry.org?subject=bug%20in%20novice/shell/01-filedir.md">Bug Report</a>
 </div>
 
     </div>

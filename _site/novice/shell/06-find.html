@@ -59,8 +59,9 @@ For our examples,
 we will use a file that contains three haikus taken from a
 1998 competition in <em>Salon</em> magazine:</p>
 
-<pre><code>$ cat haiku.txt
-The Tao that is seen
+<pre class="in"><code>$ cat haiku.txt
+</code></pre>
+<pre class="out"><code>The Tao that is seen
 Is not the true Tao, until
 You bring fresh toner.
 
@@ -83,8 +84,9 @@ As <a href="http://www.clir.org/pubs/archives/ensuring.pdf">Jeff Rothenberg said
 
 <p>Let&#39;s find lines that contain the word &quot;not&quot;:</p>
 
-<pre><code>$ grep not haiku.txt
-Is not the true Tao, until
+<pre class="in"><code>$ grep not haiku.txt
+</code></pre>
+<pre class="out"><code>Is not the true Tao, until
 "My Thesis" not found
 Today it is not working
 </code></pre>
@@ -97,8 +99,9 @@ The output is the three lines in the file that contain the letters &quot;not&quo
 
 <p>Let&#39;s try a different pattern: &quot;day&quot;.</p>
 
-<pre><code>$ grep day haiku.txt
-Yesterday it worked
+<pre class="in"><code>$ grep day haiku.txt
+</code></pre>
+<pre class="out"><code>Yesterday it worked
 Today it is not working
 </code></pre>
 
@@ -109,15 +112,16 @@ If we give <code>grep</code> the <code>-w</code> flag,
 it restricts matches to word boundaries,
 so that only lines with the word &quot;day&quot; will be printed:</p>
 
-<pre><code>$ grep -w day haiku.txt
+<pre class="in"><code>$ grep -w day haiku.txt
 </code></pre>
 
 <p>In this case, there aren&#39;t any, so <code>grep</code>&#39;s output is empty.</p>
 
 <p>Another useful option is <code>-n</code>, which numbers the lines that match:</p>
 
-<pre><code>$ grep -n it haiku.txt
-5:With searching comes loss
+<pre class="in"><code>$ grep -n it haiku.txt
+</code></pre>
+<pre class="out"><code>5:With searching comes loss
 9:Yesterday it worked
 10:Today it is not working
 </code></pre>
@@ -130,8 +134,9 @@ since <code>-i</code> makes matching case-insensitive and <code>-v</code> invert
 using them both only prints lines that <em>don&#39;t</em> match the pattern
 in any mix of upper and lower case:</p>
 
-<pre><code>$ grep -i -v the haiku.txt
-You bring fresh toner.
+<pre class="in"><code>$ grep -i -v the haiku.txt
+</code></pre>
+<pre class="out"><code>You bring fresh toner.
 
 With searching comes loss
 
@@ -146,8 +151,9 @@ To find out what they are, we can type <code>man grep</code>.
 it prints a description of a command and its options,
 and (if you&#39;re lucky) provides a few examples of how to use it:</p>
 
-<pre><code>$ man grep
-GREP(1)                                                                                              GREP(1)
+<pre class="in"><code>$ man grep
+</code></pre>
+<pre class="out"><code>GREP(1)                                                                                              GREP(1)
 
 NAME
 grep, egrep, fgrep - print lines matching a pattern
@@ -232,8 +238,9 @@ Sure enough,
 <code>find</code>&#39;s output is the names of the five directories in our little tree
 (including <code>.</code>):</p>
 
-<pre><code>$ find . -type d -print
-./
+<pre class="in"><code>$ find . -type d -print
+</code></pre>
+<pre class="out"><code>./
 ./data
 ./thesis
 ./tools
@@ -243,8 +250,9 @@ Sure enough,
 <p>If we change <code>-type d</code> to <code>-type f</code>,
 we get a listing of all the files instead:</p>
 
-<pre><code>$ find . -type f -print
-./data/one.txt
+<pre class="in"><code>$ find . -type f -print
+</code></pre>
+<pre class="out"><code>./data/one.txt
 ./data/two.txt
 ./notes.txt
 ./tools/format
@@ -257,16 +265,18 @@ and so on to find everything that matches the pattern we&#39;ve given it.
 If we don&#39;t want it to,
 we can use <code>-maxdepth</code> to restrict the depth of search:</p>
 
-<pre><code>$ find . -maxdepth 1 -type f -print
-./notes.txt
+<pre class="in"><code>$ find . -maxdepth 1 -type f -print
+</code></pre>
+<pre class="out"><code>./notes.txt
 </code></pre>
 
 <p>The opposite of <code>-maxdepth</code> is <code>-mindepth</code>,
 which tells <code>find</code> to only report things that are at or below a certain depth.
 <code>-mindepth 2</code> therefore finds all the files that are two or more levels below us:</p>
 
-<pre><code>$ find . -mindepth 2 -type f -print
-./data/one.txt
+<pre class="in"><code>$ find . -mindepth 2 -type f -print
+</code></pre>
+<pre class="out"><code>./data/one.txt
 ./data/two.txt
 ./tools/format
 ./tools/stats
@@ -275,15 +285,17 @@ which tells <code>find</code> to only report things that are at or below a certa
 <p>Another option is <code>-empty</code>,
 which restricts matches to empty files and directories:</p>
 
-<pre><code>$ find . -empty -print
-./thesis
+<pre class="in"><code>$ find . -empty -print
+</code></pre>
+<pre class="out"><code>./thesis
 ./tools/old
 </code></pre>
 
 <p>Now let&#39;s try matching by name:</p>
 
-<pre><code>$ find . -name *.txt -print
-./notes.txt
+<pre class="in"><code>$ find . -name *.txt -print
+</code></pre>
+<pre class="out"><code>./notes.txt
 </code></pre>
 
 <p>We expected it to find all the text files,
@@ -292,7 +304,7 @@ The problem is that the shell expands wildcard characters like <code>*</code> <e
 Since <code>*.txt</code> in the current directory expands to <code>notes.txt</code>,
 the command we actually ran was:</p>
 
-<pre><code>$ find . -name notes.txt -print
+<pre class="in"><code>$ find . -name notes.txt -print
 </code></pre>
 
 <p><code>find</code> did what we asked; we just asked for the wrong thing.</p>
@@ -303,8 +315,9 @@ put <code>*.txt</code> in single quotes to prevent the shell from expanding the 
 This way,
 <code>find</code> actually gets the pattern <code>*.txt</code>, not the expanded filename <code>notes.txt</code>:</p>
 
-<pre><code>$ find . -name '*.txt' -print
-./data/one.txt
+<pre class="in"><code>$ find . -name '*.txt' -print
+</code></pre>
+<pre class="out"><code>./data/one.txt
 ./data/two.txt
 ./notes.txt
 </code></pre>
@@ -328,12 +341,12 @@ How can we combine that with <code>wc -l</code> to count the lines in all those 
 
 <p>The simplest way is to put the <code>find</code> command inside <code>$()</code>:</p>
 
-<pre><code>$ wc -l $(find . -name '*.txt' -print)
-70  ./data/one.txt
+<pre class="in"><code>$ wc -l $(find . -name '*.txt' -print)
+</code></pre>
+<pre class="out"><code>70  ./data/one.txt
 420  ./data/two.txt
 30  ./notes.txt
 520  total
-$
 </code></pre>
 
 <p>When the shell executes this command,
@@ -342,7 +355,7 @@ It then replaces the <code>$()</code> expression with that command&#39;s output.
 Since the output of <code>find</code> is the three filenames <code>./data/one.txt</code>, <code>./data/two.txt</code>, and <code>./notes.txt</code>,
 the shell constructs the command:</p>
 
-<pre><code>$ wc -l ./data/one.txt ./data/two.txt ./notes.txt
+<pre class="in"><code>$ wc -l ./data/one.txt ./data/two.txt ./notes.txt
 </code></pre>
 
 <p>which is what we wanted.
@@ -355,8 +368,9 @@ the second looks for lines inside those files that match another pattern.
 Here, for example, we can find PDB files that contain iron atoms
 by looking for the string &quot;FE&quot; in all the <code>.pdb</code> files below the current directory:</p>
 
-<pre><code>$ grep FE $(find . -name '*.pdb' -print)
-./human/heme.pdb:ATOM  25  FE  1  -0.924  0.535  -0.518
+<pre class="in"><code>$ grep FE $(find . -name '*.pdb' -print)
+</code></pre>
+<pre class="out"><code>./human/heme.pdb:ATOM  25  FE  1  -0.924  0.535  -0.518
 </code></pre>
 
 <blockquote>
@@ -409,41 +423,36 @@ about them.&quot;</p>
 
 </div>
 
-<div class="challenges">
+<div class="challenge">
+  <p>Write a short explanatory comment for the following shell script:</p>
 
-  <h4 id="challenges">Challenges</h4>
-
-  <ol>
-    <li>
-      <p>Write a short explanatory comment for the following shell script:</p>
-
-      <pre><code>find . -name '*.dat' -print | wc -l | sort -n
+  <div class="file">
+    <pre><code>find . -name '*.dat' -print | wc -l | sort -n
 </code></pre>
-    </li>
-    <li>
-      <p>The <code>-v</code> flag to <code>grep</code> inverts pattern matching, so that only lines
+  </div>
+</div>
+
+<div class="challenge">
+  <p>The <code>-v</code> flag to <code>grep</code> inverts pattern matching, so that only lines
 which do <em>not</em> match the pattern are printed. Given that, which of
 the following commands will find all files in <code>/data</code> whose names
 end in <code>ose.dat</code> (e.g., <code>sucrose.dat</code> or <code>maltose.dat</code>), but do
 <em>not</em> contain the word <code>temp</code>?</p>
 
-      <ol>
-        <li>
-          <p><code>find /data -name '*.dat' -print | grep ose | grep -v temp</code></p>
-        </li>
-        <li>
-          <p><code>find /data -name ose.dat -print | grep -v temp</code></p>
-        </li>
-        <li>
-          <p><code>grep -v temp $(find /data -name '*ose.dat' -print)</code></p>
-        </li>
-        <li>
-          <p>None of the above.</p>
-        </li>
-      </ol>
+  <ol>
+    <li>
+      <p><code>find /data -name '*.dat' -print | grep ose | grep -v temp</code></p>
+    </li>
+    <li>
+      <p><code>find /data -name ose.dat -print | grep -v temp</code></p>
+    </li>
+    <li>
+      <p><code>grep -v temp $(find /data -name '*ose.dat' -print)</code></p>
+    </li>
+    <li>
+      <p>None of the above.</p>
     </li>
   </ol>
-
 </div>
 
 	  <!-- end content -->
@@ -451,13 +460,13 @@ end in <code>ose.dat</code> (e.g., <code>sucrose.dat</code> or <code>maltose.dat
       </div>
 
       <div class="footer">
-  <a class="label swc-blue-bg" href="https://www.facebook.com/SoftwareCarpentry">Facebook</a>
-  <a class="label swc-blue-bg" href="https://plus.google.com/+Software-carpentryOrg">Google+</a>
+  <a class="label swc-blue-bg" href="admin@software-carpentry.org">Email</a>
   <a class="label swc-blue-bg" href="https://twitter.com/swcarpentry">Twitter</a>
-  <a class="label swc-blue-bg" href="https://github.com/swcarpentry">GitHub</a>
   <a class="label swc-blue-bg" href="http://software-carpentry.org/feed.xml">RSS</a>
+  <a class="label swc-blue-bg" href="https://github.com/swcarpentry">GitHub</a>
+  <a class="label swc-blue-bg" href="irc://moznet/sciencelab">IRC</a>
   <a class="label swc-blue-bg" href="../../LICENSE.html">License</a>
-  <a class="bugreport label swc-blue-bg" href="mailto:info@software-carpentry.org?subject=bug%20in%20novice/shell/06-find.md">Bug Report</a>
+  <a class="bugreport label swc-blue-bg" href="mailto:admin@software-carpentry.org?subject=bug%20in%20novice/shell/06-find.md">Bug Report</a>
 </div>
 
     </div>

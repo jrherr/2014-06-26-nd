@@ -2,7 +2,6 @@
 layout: lesson
 root: ../..
 title: Loops
-level: novice
 ---
 <div class="objectives" markdown="1">
 
@@ -24,14 +23,16 @@ we'd like to rename the existing ones to `original-basilisk.dat` and `original-u
 We can't use:
 
 ~~~
-mv *.dat original-*.dat
+$ mv *.dat original-*.dat
 ~~~
+{:class="in"}
 
 because that would expand (in the two-file case) to:
 
 ~~~
-mv basilisk.dat unicorn.dat
+$ mv basilisk.dat unicorn.dat
 ~~~
+{:class="in"}
 
 This wouldn't back up our files:
 it would replace the content of `unicorn.dat` with whatever's in `basilisk.dat`.
@@ -45,6 +46,9 @@ $ for filename in basilisk.dat unicorn.dat
 > do
 >    head -3 $filename
 > done
+~~~
+{:class="in"}
+~~~
 COMMON NAME: basilisk
 CLASSIFICATION: basiliscus vulgaris
 UPDATED: 1745-05-02
@@ -52,6 +56,7 @@ COMMON NAME: unicorn
 CLASSIFICATION: equus monoceros
 UPDATED: 1738-11-24
 ~~~
+{:class="out"}
 
 When the shell sees the keyword `for`,
 it knows it is supposed to repeat a command (or group of commands) once for each thing in a list.
@@ -85,6 +90,7 @@ do
     head -3 $x
 done
 ~~~
+{:class="in"}
 
 or:
 
@@ -94,6 +100,7 @@ do
     head -3 $temperature
 done
 ~~~
+{:class="in"}
 
 it would work exactly the same way.
 *Don't do this.*
@@ -110,6 +117,7 @@ do
     head -100 $filename | tail -20
 done
 ~~~
+{:class="in"}
 
 The shell starts by expanding `*.dat` to create the list of files it will process.
 The [loop body](../../gloss.html#loop-body)
@@ -118,14 +126,16 @@ The first, `echo`, just prints its command-line parameters to standard output.
 For example:
 
 ~~~
-echo hello there
+$ echo hello there
 ~~~
+{:class="in"}
 
 prints:
 
 ~~~
 hello there
 ~~~
+{:class="out"}
 
 In this case,
 since the shell expands `$filename` to be the name of a file,
@@ -139,6 +149,7 @@ do
     head -100 $filename | tail -20
 done
 ~~~
+{:class="in"}
 
 because then the first time through the loop,
 when `$filename` expanded to `basilisk.dat`, the shell would try to run `basilisk.dat` as a program.
@@ -207,6 +218,7 @@ do
     mv $filename original-$filename
 done
 ~~~
+{:class="in"}
 
 This loop runs the `mv` command once for each filename.
 The first time,
@@ -216,12 +228,14 @@ the shell executes:
 ~~~
 mv basilisk.dat original-basilisk.dat
 ~~~
+{:class="in"}
 
 The second time, the command is:
 
 ~~~
 mv unicorn.dat original-unicorn.dat
 ~~~
+{:class="in"}
 
 > #### Measure Twice, Run Once
 > 
@@ -260,11 +274,13 @@ these are ones whose names end in 'A' or 'B', rather than 'Z':
 
 ~~~
 $ cd north-pacific-gyre/2012-07-03
-
 $ for datafile in *[AB].txt
-do
-    echo $datafile
-done
+> do
+>     echo $datafile
+> done
+~~~
+{:class="in"}
+~~~
 NENE01729A.txt
 NENE01729B.txt
 NENE01736A.txt
@@ -272,6 +288,7 @@ NENE01736A.txt
 NENE02043A.txt
 NENE02043B.txt
 ~~~
+{:class="out"}
 
 Her next step is to decide
 what to call the files that the `goostats` analysis program will create.
@@ -280,9 +297,12 @@ so she modifies her loop to do that:
 
 ~~~
 $ for datafile in *[AB].txt
-do
-    echo $datafile stats-$datafile
-done
+> do
+>     echo $datafile stats-$datafile
+> done
+~~~
+{:class="in"}
+~~~
 NENE01729A.txt stats-NENE01729A.txt
 NENE01729B.txt stats-NENE01729B.txt
 NENE01736A.txt stats-NENE01736A.txt
@@ -290,6 +310,7 @@ NENE01736A.txt stats-NENE01736A.txt
 NENE02043A.txt stats-NENE02043A.txt
 NENE02043B.txt stats-NENE02043B.txt
 ~~~
+{:class="out"}
 
 She hasn't actually run `goostats` yet,
 but now she's sure she can select the right files and generate the right output filenames.
@@ -306,6 +327,7 @@ the shell redisplays the whole loop on one line
 ~~~
 $ for datafile in *[AB].txt; do echo $datafile stats-$datafile; done
 ~~~
+{:class="in"}
 
 Using the left arrow key,
 Nelle backs up and changes the command `echo` to `goostats`:
@@ -313,6 +335,7 @@ Nelle backs up and changes the command `echo` to `goostats`:
 ~~~
 $ for datafile in *[AB].txt; do bash goostats $datafile stats-$datafile; done
 ~~~
+{:class="in"}
 
 When she presses enter,
 the shell runs the modified command.
@@ -326,6 +349,7 @@ and edits it to read:
 ~~~
 $ for datafile in *[AB].txt; do echo $datafile; bash goostats $datafile stats-$datafile; done
 ~~~
+{:class="in"}
 
 > #### Beginning and End
 >
@@ -342,6 +366,7 @@ NENE01729B.txt
 NENE01736A.txt
 ...
 ~~~
+{:class="out"}
 
 1518 times 5 seconds,
 divided by 60,
@@ -386,71 +411,73 @@ so she decides to get some coffee and catch up on her reading.
 
 </div>
 
-<div class="challenges" markdown="1">
+<div class="challenge" markdown="1">
+Suppose that `ls` initially displays:
 
-#### Challenges
+~~~
+fructose.dat    glucose.dat   sucrose.dat
+~~~
 
-1.  Suppose that `ls` initially displays:
+What is the output of:
 
-    ~~~
-    fructose.dat    glucose.dat   sucrose.dat
-    ~~~
+~~~
+for datafile in *.dat
+do
+    ls *.dat
+done
+~~~
+</div>
 
-    What is the output of:
+<div class="challenge" markdown="1">
+In the same directory, what is the effect of this loop?
 
-    ~~~
-    for datafile in *.dat
+~~~
+for sugar in *.dat
+do
+    echo $sugar
+    cat $sugar > xylose.dat
+done
+~~~
+
+1.  Prints `fructose.dat`, `glucose.dat`, and `sucrose.dat`, and
+    copies `sucrose.dat` to create `xylose.dat`.
+2.  Prints `fructose.dat`, `glucose.dat`, and `sucrose.dat`, and
+    concatenates all three files to create `xylose.dat`.
+3.  Prints `fructose.dat`, `glucose.dat`, `sucrose.dat`, and
+    `xylose.dat`, and copies `sucrose.dat` to create `xylose.dat`.
+4.  None of the above.
+</div>
+
+<div class="challenge" markdown="1">
+The `expr` does simple arithmetic using command-line parameters:
+
+~~~
+$ expr 3 + 5
+8
+$ expr 30 / 5 - 2
+4
+~~~
+
+Given this, what is the output of:
+
+~~~
+for left in 2 3
+do
+    for right in $left
     do
-        ls *.dat
+        expr $left + $right
     done
-    ~~~
+done
+~~~
+</div>
 
-2.  In the same directory, what is the effect of this loop?
+<div class="challenge" markdown="1">
+Describe in words what the following loop does.
 
-    ~~~
-    for sugar in *.dat
-    do
-        echo $sugar
-        cat $sugar > xylose.dat
-    done
-    ~~~
-
-    1.  Prints `fructose.dat`, `glucose.dat`, and `sucrose.dat`, and
-        copies `sucrose.dat` to create `xylose.dat`.
-    2.  Prints `fructose.dat`, `glucose.dat`, and `sucrose.dat`, and
-        concatenates all three files to create `xylose.dat`.
-    3.  Prints `fructose.dat`, `glucose.dat`, `sucrose.dat`, and
-        `xylose.dat`, and copies `sucrose.dat` to create `xylose.dat`.
-    4.  None of the above.
-
-3.  The `expr` does simple arithmetic using command-line parameters:
-
-    ~~~
-    $ expr 3 + 5
-    8
-    $ expr 30 / 5 - 2
-    4
-    ~~~
-
-    Given this, what is the output of:
-
-    ~~~
-    for left in 2 3
-    do
-        for right in $left
-        do
-            expr $left + $right
-        done
-    done
-    ~~~
-
-4.  Describe in words what the following loop does.
-
-    ~~~
-    for how in frog11 prcb redig
-    do
-        $how -limit 0.01 NENE01729B.txt
-    done
-    ~~~
-
+~~~
+for how in frog11 prcb redig
+do
+    $how -limit 0.01 NENE01729B.txt
+done
+~~~
 </div>

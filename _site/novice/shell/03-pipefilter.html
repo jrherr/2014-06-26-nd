@@ -56,8 +56,9 @@ that contains six files describing some simple organic molecules.
 The <code>.pdb</code> extension indicates that these files are in Protein Data Bank format,
 a simple text format that specifies the type and position of each atom in the molecule.</p>
 
-<pre><code>$ ls molecules
-cubane.pdb    ethane.pdb    methane.pdb
+<pre class="in"><code>$ ls molecules
+</code></pre>
+<pre class="out"><code>cubane.pdb    ethane.pdb    methane.pdb
 octane.pdb    pentane.pdb   propane.pdb
 </code></pre>
 
@@ -67,9 +68,10 @@ it counts the number of lines, words, and characters in files.
 The <code>*</code> in <code>*.pdb</code> matches zero or more characters,
 so the shell turns <code>*.pdb</code> into a complete list of <code>.pdb</code> files:</p>
 
-<pre><code>$ cd molecules
+<pre class="in"><code>$ cd molecules
 $ wc *.pdb
-  20  156 1158 cubane.pdb
+</code></pre>
+<pre class="out"><code>  20  156 1158 cubane.pdb
   12   84  622 ethane.pdb
    9   57  422 methane.pdb
   30  246 1828 octane.pdb
@@ -107,8 +109,9 @@ another example of orthogonal design.</p>
 <p>If we run <code>wc -l</code> instead of just <code>wc</code>,
 the output shows only the number of lines per file:</p>
 
-<pre><code>$ wc -l *.pdb
-  20  cubane.pdb
+<pre class="in"><code>$ wc -l *.pdb
+</code></pre>
+<pre class="out"><code>  20  cubane.pdb
   12  ethane.pdb
    9  methane.pdb
   30  octane.pdb
@@ -125,7 +128,7 @@ It&#39;s an easy question to answer when there are only six files,
 but what if there were 6000?
 Our first step toward a solution is to run the command:</p>
 
-<pre><code>$ wc -l *.pdb &gt; lengths
+<pre class="in"><code>$ wc -l *.pdb &gt; lengths
 </code></pre>
 
 <p>The <code>&gt;</code> tells the shell to <a href="../../gloss.html#redirect">redirect</a> the command&#39;s output
@@ -136,8 +139,9 @@ or overwrite the contents of that file if it does.
 everything that <code>wc</code> would have printed has gone into the file <code>lengths</code> instead.)
 <code>ls lengths</code> confirms that the file exists:</p>
 
-<pre><code>$ ls lengths
-lengths
+<pre class="in"><code>$ ls lengths
+</code></pre>
+<pre class="out"><code>lengths
 </code></pre>
 
 <p>We can now send the content of <code>lengths</code> to the screen using <code>cat lengths</code>.
@@ -146,8 +150,9 @@ it prints the contents of files one after another.
 There&#39;s only one file in this case,
 so <code>cat</code> just shows us what it contains:</p>
 
-<pre><code>$ cat lengths
-  20  cubane.pdb
+<pre class="in"><code>$ cat lengths
+</code></pre>
+<pre class="out"><code>  20  cubane.pdb
   12  ethane.pdb
    9  methane.pdb
   30  octane.pdb
@@ -160,8 +165,9 @@ so <code>cat</code> just shows us what it contains:</p>
 This does <em>not</em> change the file;
 instead, it sends the sorted result to the screen:</p>
 
-<pre><code>$ sort lengths
-  9  methane.pdb
+<pre class="in"><code>$ sort lengths
+</code></pre>
+<pre class="out"><code>  9  methane.pdb
  12  ethane.pdb
  15  propane.pdb
  20  cubane.pdb
@@ -176,9 +182,10 @@ just as we used <code>&gt; lengths</code> to put the output of <code>wc</code> i
 Once we&#39;ve done that,
 we can run another command called <code>head</code> to get the first few lines in <code>sorted-lengths</code>:</p>
 
-<pre><code>$ sort lengths &gt; sorted-lengths
+<pre class="in"><code>$ sort lengths &gt; sorted-lengths
 $ head -1 sorted-lengths
-  9  methane.pdb
+</code></pre>
+<pre class="out"><code>  9  methane.pdb
 </code></pre>
 
 <p>Using the parameter <code>-1</code> with <code>head</code> tells it that
@@ -194,8 +201,9 @@ even once you understand what <code>wc</code>, <code>sort</code>, and <code>head
 all those intermediate files make it hard to follow what&#39;s going on.
 We can make it easier to understand by running <code>sort</code> and <code>head</code> together:</p>
 
-<pre><code>$ sort lengths | head -1
-  9  methane.pdb
+<pre class="in"><code>$ sort lengths | head -1
+</code></pre>
+<pre class="out"><code>  9  methane.pdb
 </code></pre>
 
 <p>The vertical bar between the two commands is called a <a href="../../gloss.html#pipe">pipe</a>.
@@ -210,8 +218,9 @@ we don&#39;t have to know or care.</p>
 <p>We can use another pipe to send the output of <code>wc</code> directly to <code>sort</code>,
 which then sends its output to <code>head</code>:</p>
 
-<pre><code>$ wc -l *.pdb | sort | head -1
-  9  methane.pdb
+<pre class="in"><code>$ wc -l *.pdb | sort | head -1
+</code></pre>
+<pre class="out"><code>  9  methane.pdb
 </code></pre>
 
 <p>This is exactly like a mathematician nesting functions like <em>sin(&pi;x)<sup>2</sup></em>
@@ -295,13 +304,13 @@ standard input.</p>
 and created 1520 files in the <code>north-pacific-gyre/2012-07-03</code> directory described earlier.
 As a quick sanity check, she types:</p>
 
-<pre><code>$ cd north-pacific-gyre/2012-07-03
+<pre class="in"><code>$ cd north-pacific-gyre/2012-07-03
 $ wc -l *.txt
 </code></pre>
 
 <p>The output is 1520 lines that look like this:</p>
 
-<pre><code>300 NENE01729A.txt
+<pre class="out"><code>300 NENE01729A.txt
 300 NENE01729B.txt
 300 NENE01736A.txt
 300 NENE01751A.txt
@@ -312,8 +321,9 @@ $ wc -l *.txt
 
 <p>Now she types this:</p>
 
-<pre><code>$ wc -l *.txt | sort | head -5
- 240 NENE02018B.txt
+<pre class="in"><code>$ wc -l *.txt | sort | head -5
+</code></pre>
+<pre class="out"><code> 240 NENE02018B.txt
  300 NENE01729A.txt
  300 NENE01729B.txt
  300 NENE01736A.txt
@@ -328,8 +338,9 @@ and she forgot to reset it.
 Before re-running that sample,
 she checks to see if any files have too much data:</p>
 
-<pre><code>$ wc -l *.txt | sort | tail -5
- 300 NENE02040A.txt
+<pre class="in"><code>$ wc -l *.txt | sort | tail -5
+</code></pre>
+<pre class="out"><code> 300 NENE02040A.txt
  300 NENE02040B.txt
  300 NENE02040Z.txt
  300 NENE02043A.txt
@@ -342,8 +353,9 @@ by convention,
 her lab uses &#39;Z&#39; to indicate samples with missing information.
 To find others like it, she does this:</p>
 
-<pre><code>$ ls *Z.txt
-NENE01971Z.txt    NENE02040Z.txt
+<pre class="in"><code>$ ls *Z.txt
+</code></pre>
+<pre class="out"><code>NENE01971Z.txt    NENE02040Z.txt
 </code></pre>
 
 <p>Sure enough,
@@ -370,57 +382,54 @@ so this matches all the valid data files she has.</p>
 
 </div>
 
-<div class="challenges">
+<div class="challenge">
+  <p>If we run <code>sort</code> on this file:</p>
 
-  <h4 id="challenges">Challenges</h4>
-
-  <ol>
-    <li>
-      <p>If we run <code>sort</code> on this file:</p>
-
-      <pre><code>10
+  <pre><code>10
 2
 19
 22
 6
 </code></pre>
 
-      <p>the output is:</p>
+  <p>the output is:</p>
 
-      <pre><code>10
+  <pre><code>10
 19
 2
 22
 6
 </code></pre>
 
-      <p>If we run <code>sort -n</code> on the same input, we get this instead:</p>
+  <p>If we run <code>sort -n</code> on the same input, we get this instead:</p>
 
-      <pre><code>2
+  <pre><code>2
 6
 10
 19
 22
 </code></pre>
 
-      <p>Explain why <code>-n</code> has this effect.</p>
-    </li>
-    <li>
-      <p>What is the difference between:</p>
+  <p>Explain why <code>-n</code> has this effect.</p>
+</div>
 
-      <pre><code>wc -l &lt; mydata.dat
+<div class="challenge">
+  <p>What is the difference between:</p>
+
+  <pre><code>wc -l &lt; mydata.dat
 </code></pre>
 
-      <p>and:</p>
+  <p>and:</p>
 
-      <pre><code>wc -l mydata.dat
+  <pre><code>wc -l mydata.dat
 </code></pre>
-    </li>
-    <li>
-      <p>The command <code>uniq</code> removes adjacent duplicated lines from its input.
+</div>
+
+<div class="challenge">
+  <p>The command <code>uniq</code> removes adjacent duplicated lines from its input.
 For example, if a file <code>salmon.txt</code> contains:</p>
 
-      <pre><code>coho
+  <pre><code>coho
 coho
 steelhead
 coho
@@ -428,22 +437,23 @@ steelhead
 steelhead
 </code></pre>
 
-      <p>then <code>uniq salmon.txt</code> produces:</p>
+  <p>then <code>uniq salmon.txt</code> produces:</p>
 
-      <pre><code>coho
+  <pre><code>coho
 steelhead
 coho
 steelhead
 </code></pre>
 
-      <p>Why do you think <code>uniq</code> only removes <em>adjacent</em> duplicated lines?
+  <p>Why do you think <code>uniq</code> only removes <em>adjacent</em> duplicated lines?
 (Hint: think about very large data sets.) What other command could
 you combine with it in a pipe to remove all duplicated lines?</p>
-    </li>
-    <li>
-      <p>A file called <code>animals.txt</code> contains the following data:</p>
+</div>
 
-      <pre><code>2012-11-05,deer
+<div class="challenge">
+  <p>A file called <code>animals.txt</code> contains the following data:</p>
+
+  <pre><code>2012-11-05,deer
 2012-11-05,rabbit
 2012-11-05,raccoon
 2012-11-06,rabbit
@@ -453,20 +463,21 @@ you combine with it in a pipe to remove all duplicated lines?</p>
 2012-11-07,bear
 </code></pre>
 
-      <p>What text passes through each of the pipes and the final redirect in the pipeline below?</p>
+  <p>What text passes through each of the pipes and the final redirect in the pipeline below?</p>
 
-      <pre><code>cat animals.txt | head -5 | tail -3 | sort -r &gt; final.txt
+  <pre><code>cat animals.txt | head -5 | tail -3 | sort -r &gt; final.txt
 </code></pre>
-    </li>
-    <li>
-      <p>The command:</p>
+</div>
 
-      <pre><code>$ cut -d , -f 2 animals.txt
+<div class="challenge">
+  <p>The command:</p>
+
+  <pre><code>$ cut -d , -f 2 animals.txt
 </code></pre>
 
-      <p>produces the following output:</p>
+  <p>produces the following output:</p>
 
-      <pre><code>deer
+  <pre><code>deer
 rabbit
 raccoon
 rabbit
@@ -476,12 +487,9 @@ rabbit
 bear
 </code></pre>
 
-      <p>What other command(s) could be added to this in a pipeline to find
+  <p>What other command(s) could be added to this in a pipeline to find
 out what animals the file contains (without any duplicates in their
 names)?</p>
-    </li>
-  </ol>
-
 </div>
 
 	  <!-- end content -->
@@ -489,13 +497,13 @@ names)?</p>
       </div>
 
       <div class="footer">
-  <a class="label swc-blue-bg" href="https://www.facebook.com/SoftwareCarpentry">Facebook</a>
-  <a class="label swc-blue-bg" href="https://plus.google.com/+Software-carpentryOrg">Google+</a>
+  <a class="label swc-blue-bg" href="admin@software-carpentry.org">Email</a>
   <a class="label swc-blue-bg" href="https://twitter.com/swcarpentry">Twitter</a>
-  <a class="label swc-blue-bg" href="https://github.com/swcarpentry">GitHub</a>
   <a class="label swc-blue-bg" href="http://software-carpentry.org/feed.xml">RSS</a>
+  <a class="label swc-blue-bg" href="https://github.com/swcarpentry">GitHub</a>
+  <a class="label swc-blue-bg" href="irc://moznet/sciencelab">IRC</a>
   <a class="label swc-blue-bg" href="../../LICENSE.html">License</a>
-  <a class="bugreport label swc-blue-bg" href="mailto:info@software-carpentry.org?subject=bug%20in%20novice/shell/03-pipefilter.md">Bug Report</a>
+  <a class="bugreport label swc-blue-bg" href="mailto:admin@software-carpentry.org?subject=bug%20in%20novice/shell/03-pipefilter.md">Bug Report</a>
 </div>
 
     </div>

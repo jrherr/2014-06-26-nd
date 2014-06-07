@@ -15,8 +15,7 @@ in the last four years.
 *   [Programming with Python](novice/python/index.html)
 *   [Using Databases and SQL](novice/sql/index.html)
 *   [A Few Extras](novice/extras/index.html)
-
-These lessons are also available in [book form](book.html).
+*   [Instructor's Guide](novice/teaching/index.html)
 
 ## For the More Experienced
 

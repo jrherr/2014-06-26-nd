@@ -37,8 +37,9 @@
           
           <p>Here&#39;s where we are right now:</p>
 
-<pre><code>$ git log
-commit 005937fbe2a98fb83f0ade869025dc2636b4dad5
+<pre class="in"><code>$ git log
+</code></pre>
+<pre class="out"><code>commit 005937fbe2a98fb83f0ade869025dc2636b4dad5
 Author: Vlad Dracula &lt;vlad@tran.sylvan.ia&gt;
 Date:   Thu Aug 22 10:14:07 2013 -0400
 
@@ -69,15 +70,15 @@ But the Mummy will appreciate the lack of humidity
 
 <p>Let&#39;s run this command:</p>
 
-<pre><code>$ git branch moons
+<pre class="in"><code>$ git branch moons
 </code></pre>
 
 <p>It appears to do nothing,
-but behind the scenes,
-it has created a new <a href="../gloss.html#branch">branch</a> called <code>moons</code>:</p>
+but behind the scenes it has created a new <a href="../../gloss.html#branch">branch</a> called <code>moons</code>:</p>
 
-<pre><code>$ git branch
-* master
+<pre class="in"><code>$ git branch
+</code></pre>
+<pre class="out"><code>* master
   moons
 </code></pre>
 
@@ -92,10 +93,13 @@ They both point to the same revision right now,
 but we can change that.
 Let&#39;s make <code>moons</code> the active branch:</p>
 
-<pre><code>$ git checkout moons
-Switched to branch 'moons'
-$ git branch
-  master
+<pre class="in"><code>$ git checkout moons
+</code></pre>
+<pre class="out"><code>Switched to branch 'moons'
+</code></pre>
+<pre class="in"><code>$ git branch
+</code></pre>
+<pre class="out"><code>  master
 * moons
 </code></pre>
 
@@ -103,30 +107,32 @@ $ git branch
 
 <p>Our file looks the same:</p>
 
-<pre><code>$ cat mars.txt
-Cold and dry, but everything is my favorite color
+<pre class="in"><code>$ cat mars.txt
+</code></pre>
+<pre class="out"><code>Cold and dry, but everything is my favorite color
 The two moons may be a problem for Wolfman
 But the Mummy will appreciate the lack of humidity
 </code></pre>
 
 <p>because it <em>is</em> the same:
-Git hasn&#39;t made a copy of it yet because it hasn&#39;t needed to.
 Let&#39;s add another line to it:</p>
 
-<pre><code>$ echo "Maybe we should put the base on one of the moons instead?" &gt;&gt; mars.txt
+<pre class="in"><code>$ echo "Maybe we should put the base on one of the moons instead?" &gt;&gt; mars.txt
 </code></pre>
 
 <p>and add an entirely new file:</p>
 
-<pre><code>$ echo "Phobos is larger than Deimos" &gt; moons.txt
+<pre class="in"><code>$ echo "Phobos is larger than Deimos" &gt; moons.txt
 $ ls
-mars.txt    moons.txt
+</code></pre>
+<pre class="out"><code>mars.txt    moons.txt
 </code></pre>
 
 <p>Git now tells us that we have one changed file and one new file:</p>
 
-<pre><code>$ git status
-# On branch moons
+<pre class="in"><code>$ git status
+</code></pre>
+<pre class="out"><code># On branch moons
 # Changes not staged for commit:
 #   (use "git add &lt;file&gt;..." to update what will be committed)
 #   (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
@@ -143,17 +149,20 @@ no changes added to commit (use "git add" and/or "git commit -a")
 <p>Let&#39;s add and commit those changes
 (the <code>-A</code> flag to <code>git commit</code> means &quot;add everything&quot;):</p>
 
-<pre><code>$ git add -A
+<pre class="in"><code>$ git add -A
 $ git status
-# On branch moons
+</code></pre>
+<pre class="out"><code># On branch moons
 # Changes to be committed:
 #   (use "git reset HEAD &lt;file&gt;..." to unstage)
 #
 #    modified:   mars.txt
 #    new file:   moons.txt
 #
-$ git commit -m "Thinking about the moons"
-[moons 62e7791] Thinking about the moons
+</code></pre>
+<pre class="in"><code>$ git commit -m "Thinking about the moons"
+</code></pre>
+<pre class="out"><code>[moons 62e7791] Thinking about the moons
  2 files changed, 2 insertions(+)
  create mode 100644 moons.txt
 </code></pre>
@@ -166,15 +175,18 @@ $ git commit -m "Thinking about the moons"
 but <code>master</code> is still where it was.
 If we switch back to <code>master</code>:</p>
 
-<pre><code>$ git checkout master
+<pre class="in"><code>$ git checkout master
 </code></pre>
 
 <p>our changes seem to disappear:</p>
 
-<pre><code>$ ls
-mars.txt
-$ cat mars.txt
-Cold and dry, but everything is my favorite color
+<pre class="in"><code>$ ls
+</code></pre>
+<pre class="out"><code>mars.txt
+</code></pre>
+<pre class="in"><code>$ cat mars.txt
+</code></pre>
+<pre class="out"><code>Cold and dry, but everything is my favorite color
 The two moons may be a problem for Wolfman
 But the Mummy will appreciate the lack of humidity
 </code></pre>
@@ -186,17 +198,20 @@ we&#39;ve created a parallel timeline that shares some history with the original
 
 <p>Let&#39;s make some changes in the <code>master</code> branch to further illustrate this point:</p>
 
-<pre><code>$ echo "Should we go with a classical name like Ares Base?" &gt; names.txt
+<pre class="in"><code>$ echo "Should we go with a classical name like Ares Base?" &gt; names.txt
 $ git status
-# On branch master
+</code></pre>
+<pre class="out"><code># On branch master
 # Untracked files:
 #   (use "git add &lt;file&gt;..." to include in what will be committed)
 #
 #    names.txt
 nothing added to commit but untracked files present (use "git add" to track)
-$ git add names.txt
+</code></pre>
+<pre class="in"><code>$ git add names.txt
 $ git commit -m "We will need a cool name for our secret base"
-[master dfcf908] We will need a cool name for our secret base
+</code></pre>
+<pre class="out"><code>[master dfcf908] We will need a cool name for our secret base
  1 file changed, 1 insertion(+)
  create mode 100644 names.txt
 </code></pre>
@@ -208,20 +223,23 @@ $ git commit -m "We will need a cool name for our secret base"
 <p><code>master</code> and <code>moons</code> have both moved on from their original common state,
 but in different ways.
 They could continue independent existence indefinitely,
-but at some point we&#39;ll probably want to <a href="../gloss.html#merge">merge</a> our changes.
+but at some point we&#39;ll probably want to <a href="../../gloss.html#repository-merge">merge</a> our changes.
 Let&#39;s do that now:</p>
 
-<pre><code>$ git branch
-* master
+<pre class="in"><code>$ git branch
+</code></pre>
+<pre class="out"><code>* master
   moons
-$ git merge moons
+</code></pre>
+<pre class="in"><code>$ git merge moons
 </code></pre>
 
 <p>When we run the <code>git merge</code> command,
 Git opens an editor to let us write a log entry about what we&#39;re doing.
 The editor session initially contains this:</p>
 
-<pre><code>Merge branch 'moons'
+<div class="file">
+  <pre><code>Merge branch 'moons'
 
 # Please enter a commit message to explain why this merge is necessary,
 # especially if it merges an updated upstream into a topic branch.
@@ -229,6 +247,7 @@ The editor session initially contains this:</p>
 # Lines starting with '#' will be ignored, and an empty message aborts
 # the commit.
 </code></pre>
+</div>
 
 <p>If we notice that something is wrong and decide not to complete the merge,
 we must delete everything in the file&mdash;Git interprets an empty log message to mean,
@@ -239,7 +258,7 @@ In this case,
 we&#39;ll stick with the default log message.
 When we save the file and exit the editor, Git displays this:</p>
 
-<pre><code>Merge made by the 'recursive' strategy.
+<pre class="out"><code>Merge made by the 'recursive' strategy.
  mars.txt  | 1 +
  moons.txt | 1 +
  2 files changed, 2 insertions(+)
@@ -248,18 +267,20 @@ When we save the file and exit the editor, Git displays this:</p>
 
 <p>We now have all of our changes in one place:</p>
 
-<pre><code>$ ls
-mars.txt    moons.txt    names.txt
+<pre class="in"><code>$ ls
+</code></pre>
+<pre class="out"><code>mars.txt    moons.txt    names.txt
 </code></pre>
 
 <p>and our repository looks like this:</p>
 
 <p><img src="img/git-branching-06.svg" alt="After Merging" /></p>
 
-<p>We can visualize the history with this set of arguments to <code>git log</code>:</p>
+<p>We can ask Git to draw a diagram of the repository&#39;s history with this command:</p>
 
-<pre><code>$ git log --oneline --topo-order --graph
-*   e0cf8ab Merge branch 'moons'
+<pre class="in"><code>$ git log --oneline --topo-order --graph
+</code></pre>
+<pre class="out"><code>*   e0cf8ab Merge branch 'moons'
 |\
 | * 62e7791 Thinking about the moons
 * | dfcf908 We will need a cool name for our secret base
@@ -271,7 +292,8 @@ mars.txt    moons.txt    names.txt
 
 <p>This ASCII art is fine for small sets of changes,
 but for anything significant,
-it&#39;s much better to use a proper GUI that can draw graphs using lines instead of characters.</p>
+it&#39;s much better to use a GUI
+that can draw graphs using lines instead of characters.</p>
 
 <p>Branching strikes most newcomers as unnecessary complexity,
 particularly for single-author projects.
@@ -297,7 +319,7 @@ then resume our earlier work.</p>
 <p>In practice,
 most developers never make changes directly in the <code>master</code> branch.
 Instead,
-they create a new branch from it for every significant change they want to make,
+they create a new branch from it for every change they want to make,
 then merge those branches back to <code>master</code> when the work is complete.
 Returning to our hypothetical example,
 we would:</p>
@@ -324,13 +346,13 @@ and leave the changes parked in that branch until we were ready to merge them.</
       </div>
 
       <div class="footer">
-  <a class="label swc-blue-bg" href="https://www.facebook.com/SoftwareCarpentry">Facebook</a>
-  <a class="label swc-blue-bg" href="https://plus.google.com/+Software-carpentryOrg">Google+</a>
+  <a class="label swc-blue-bg" href="admin@software-carpentry.org">Email</a>
   <a class="label swc-blue-bg" href="https://twitter.com/swcarpentry">Twitter</a>
-  <a class="label swc-blue-bg" href="https://github.com/swcarpentry">GitHub</a>
   <a class="label swc-blue-bg" href="http://software-carpentry.org/feed.xml">RSS</a>
+  <a class="label swc-blue-bg" href="https://github.com/swcarpentry">GitHub</a>
+  <a class="label swc-blue-bg" href="irc://moznet/sciencelab">IRC</a>
   <a class="label swc-blue-bg" href="../../LICENSE.html">License</a>
-  <a class="bugreport label swc-blue-bg" href="mailto:info@software-carpentry.org?subject=bug%20in%20novice/extras/01-branching.md">Bug Report</a>
+  <a class="bugreport label swc-blue-bg" href="mailto:admin@software-carpentry.org?subject=bug%20in%20novice/extras/01-branching.md">Bug Report</a>
 </div>
 
     </div>

@@ -56,12 +56,12 @@ When new files arrive,
 we&#39;d like to rename the existing ones to <code>original-basilisk.dat</code> and <code>original-unicorn.dat</code>.
 We can&#39;t use:</p>
 
-<pre><code>mv *.dat original-*.dat
+<pre class="in"><code>$ mv *.dat original-*.dat
 </code></pre>
 
 <p>because that would expand (in the two-file case) to:</p>
 
-<pre><code>mv basilisk.dat unicorn.dat
+<pre class="in"><code>$ mv basilisk.dat unicorn.dat
 </code></pre>
 
 <p>This wouldn&#39;t back up our files:
@@ -71,11 +71,12 @@ it would replace the content of <code>unicorn.dat</code> with whatever&#39;s in 
 to do some operation once for each thing in a list.
 Here&#39;s a simple example that displays the first three lines of each file in turn:</p>
 
-<pre><code>$ for filename in basilisk.dat unicorn.dat
+<pre class="in"><code>$ for filename in basilisk.dat unicorn.dat
 &gt; do
 &gt;    head -3 $filename
 &gt; done
-COMMON NAME: basilisk
+</code></pre>
+<pre class="out"><code>COMMON NAME: basilisk
 CLASSIFICATION: basiliscus vulgaris
 UPDATED: 1745-05-02
 COMMON NAME: unicorn
@@ -111,7 +112,7 @@ in order to make its purpose clearer to human readers.
 The shell itself doesn&#39;t care what the variable is called;
 if we wrote this loop as:</p>
 
-<pre><code>for x in basilisk.dat unicorn.dat
+<pre class="in"><code>for x in basilisk.dat unicorn.dat
 do
     head -3 $x
 done
@@ -119,7 +120,7 @@ done
 
 <p>or:</p>
 
-<pre><code>for temperature in basilisk.dat unicorn.dat
+<pre class="in"><code>for temperature in basilisk.dat unicorn.dat
 do
     head -3 $temperature
 done
@@ -133,7 +134,7 @@ increase the odds that the program won&#39;t do what its readers think it does.<
 
 <p>Here&#39;s a slightly more complicated loop:</p>
 
-<pre><code>for filename in *.dat
+<pre class="in"><code>for filename in *.dat
 do
     echo $filename
     head -100 $filename | tail -20
@@ -146,12 +147,12 @@ then executes two commands for each of those files.
 The first, <code>echo</code>, just prints its command-line parameters to standard output.
 For example:</p>
 
-<pre><code>echo hello there
+<pre class="in"><code>$ echo hello there
 </code></pre>
 
 <p>prints:</p>
 
-<pre><code>hello there
+<pre class="out"><code>hello there
 </code></pre>
 
 <p>In this case,
@@ -159,7 +160,7 @@ since the shell expands <code>$filename</code> to be the name of a file,
 <code>echo $filename</code> just prints the name of the file.
 Note that we can&#39;t write this as:</p>
 
-<pre><code>for filename in *.dat
+<pre class="in"><code>for filename in *.dat
 do
     $filename
     head -100 $filename | tail -20
@@ -224,7 +225,7 @@ done
 <p>Going back to our original file renaming problem,
 we can solve it using this loop:</p>
 
-<pre><code>for filename in *.dat
+<pre class="in"><code>for filename in *.dat
 do
     mv $filename original-$filename
 done
@@ -235,12 +236,12 @@ The first time,
 when <code>$filename</code> expands to <code>basilisk.dat</code>,
 the shell executes:</p>
 
-<pre><code>mv basilisk.dat original-basilisk.dat
+<pre class="in"><code>mv basilisk.dat original-basilisk.dat
 </code></pre>
 
 <p>The second time, the command is:</p>
 
-<pre><code>mv unicorn.dat original-unicorn.dat
+<pre class="in"><code>mv unicorn.dat original-unicorn.dat
 </code></pre>
 
 <blockquote>
@@ -278,13 +279,13 @@ she decides to build up the required commands in stages.
 Her first step is to make sure that she can select the right files&mdash;remember,
 these are ones whose names end in &#39;A&#39; or &#39;B&#39;, rather than &#39;Z&#39;:</p>
 
-<pre><code>$ cd north-pacific-gyre/2012-07-03
-
+<pre class="in"><code>$ cd north-pacific-gyre/2012-07-03
 $ for datafile in *[AB].txt
-do
-    echo $datafile
-done
-NENE01729A.txt
+&gt; do
+&gt;     echo $datafile
+&gt; done
+</code></pre>
+<pre class="out"><code>NENE01729A.txt
 NENE01729B.txt
 NENE01736A.txt
 ...
@@ -297,11 +298,12 @@ what to call the files that the <code>goostats</code> analysis program will crea
 Prefixing each input file&#39;s name with &quot;stats&quot; seems simple,
 so she modifies her loop to do that:</p>
 
-<pre><code>$ for datafile in *[AB].txt
-do
-    echo $datafile stats-$datafile
-done
-NENE01729A.txt stats-NENE01729A.txt
+<pre class="in"><code>$ for datafile in *[AB].txt
+&gt; do
+&gt;     echo $datafile stats-$datafile
+&gt; done
+</code></pre>
+<pre class="out"><code>NENE01729A.txt stats-NENE01729A.txt
 NENE01729B.txt stats-NENE01729B.txt
 NENE01736A.txt stats-NENE01736A.txt
 ...
@@ -321,13 +323,13 @@ In response,
 the shell redisplays the whole loop on one line
 (using semi-colons to separate the pieces):</p>
 
-<pre><code>$ for datafile in *[AB].txt; do echo $datafile stats-$datafile; done
+<pre class="in"><code>$ for datafile in *[AB].txt; do echo $datafile stats-$datafile; done
 </code></pre>
 
 <p>Using the left arrow key,
 Nelle backs up and changes the command <code>echo</code> to <code>goostats</code>:</p>
 
-<pre><code>$ for datafile in *[AB].txt; do bash goostats $datafile stats-$datafile; done
+<pre class="in"><code>$ for datafile in *[AB].txt; do bash goostats $datafile stats-$datafile; done
 </code></pre>
 
 <p>When she presses enter,
@@ -339,7 +341,7 @@ She kills the job by typing Control-C,
 uses up-arrow to repeat the command,
 and edits it to read:</p>
 
-<pre><code>$ for datafile in *[AB].txt; do echo $datafile; bash goostats $datafile stats-$datafile; done
+<pre class="in"><code>$ for datafile in *[AB].txt; do echo $datafile; bash goostats $datafile stats-$datafile; done
 </code></pre>
 
 <blockquote>
@@ -353,7 +355,7 @@ and to the end using <code>^E</code>.</p>
 <p>When she runs her program now,
 it produces one line of output every five seconds or so:</p>
 
-<pre><code>NENE01729A.txt
+<pre class="out"><code>NENE01729A.txt
 NENE01729B.txt
 NENE01736A.txt
 ...
@@ -405,57 +407,54 @@ repeat one of those commands. For example, if Nelle types this:</p>
 
 </div>
 
-<div class="challenges">
+<div class="challenge">
+  <p>Suppose that <code>ls</code> initially displays:</p>
 
-  <h4 id="challenges">Challenges</h4>
-
-  <ol>
-    <li>
-      <p>Suppose that <code>ls</code> initially displays:</p>
-
-      <pre><code>fructose.dat    glucose.dat   sucrose.dat
+  <pre><code>fructose.dat    glucose.dat   sucrose.dat
 </code></pre>
 
-      <p>What is the output of:</p>
+  <p>What is the output of:</p>
 
-      <pre><code>for datafile in *.dat
+  <pre><code>for datafile in *.dat
 do
     ls *.dat
 done
 </code></pre>
-    </li>
-    <li>
-      <p>In the same directory, what is the effect of this loop?</p>
+</div>
 
-      <pre><code>for sugar in *.dat
+<div class="challenge">
+  <p>In the same directory, what is the effect of this loop?</p>
+
+  <pre><code>for sugar in *.dat
 do
     echo $sugar
     cat $sugar &gt; xylose.dat
 done
 </code></pre>
 
-      <ol>
-        <li>Prints <code>fructose.dat</code>, <code>glucose.dat</code>, and <code>sucrose.dat</code>, and
+  <ol>
+    <li>Prints <code>fructose.dat</code>, <code>glucose.dat</code>, and <code>sucrose.dat</code>, and
 copies <code>sucrose.dat</code> to create <code>xylose.dat</code>.</li>
-        <li>Prints <code>fructose.dat</code>, <code>glucose.dat</code>, and <code>sucrose.dat</code>, and
+    <li>Prints <code>fructose.dat</code>, <code>glucose.dat</code>, and <code>sucrose.dat</code>, and
 concatenates all three files to create <code>xylose.dat</code>.</li>
-        <li>Prints <code>fructose.dat</code>, <code>glucose.dat</code>, <code>sucrose.dat</code>, and
+    <li>Prints <code>fructose.dat</code>, <code>glucose.dat</code>, <code>sucrose.dat</code>, and
 <code>xylose.dat</code>, and copies <code>sucrose.dat</code> to create <code>xylose.dat</code>.</li>
-        <li>None of the above.</li>
-      </ol>
-    </li>
-    <li>
-      <p>The <code>expr</code> does simple arithmetic using command-line parameters:</p>
+    <li>None of the above.</li>
+  </ol>
+</div>
 
-      <pre><code>$ expr 3 + 5
+<div class="challenge">
+  <p>The <code>expr</code> does simple arithmetic using command-line parameters:</p>
+
+  <pre><code>$ expr 3 + 5
 8
 $ expr 30 / 5 - 2
 4
 </code></pre>
 
-      <p>Given this, what is the output of:</p>
+  <p>Given this, what is the output of:</p>
 
-      <pre><code>for left in 2 3
+  <pre><code>for left in 2 3
 do
     for right in $left
     do
@@ -463,18 +462,16 @@ do
     done
 done
 </code></pre>
-    </li>
-    <li>
-      <p>Describe in words what the following loop does.</p>
+</div>
 
-      <pre><code>for how in frog11 prcb redig
+<div class="challenge">
+  <p>Describe in words what the following loop does.</p>
+
+  <pre><code>for how in frog11 prcb redig
 do
     $how -limit 0.01 NENE01729B.txt
 done
 </code></pre>
-    </li>
-  </ol>
-
 </div>
 
 	  <!-- end content -->
@@ -482,13 +479,13 @@ done
       </div>
 
       <div class="footer">
-  <a class="label swc-blue-bg" href="https://www.facebook.com/SoftwareCarpentry">Facebook</a>
-  <a class="label swc-blue-bg" href="https://plus.google.com/+Software-carpentryOrg">Google+</a>
+  <a class="label swc-blue-bg" href="admin@software-carpentry.org">Email</a>
   <a class="label swc-blue-bg" href="https://twitter.com/swcarpentry">Twitter</a>
-  <a class="label swc-blue-bg" href="https://github.com/swcarpentry">GitHub</a>
   <a class="label swc-blue-bg" href="http://software-carpentry.org/feed.xml">RSS</a>
+  <a class="label swc-blue-bg" href="https://github.com/swcarpentry">GitHub</a>
+  <a class="label swc-blue-bg" href="irc://moznet/sciencelab">IRC</a>
   <a class="label swc-blue-bg" href="../../LICENSE.html">License</a>
-  <a class="bugreport label swc-blue-bg" href="mailto:info@software-carpentry.org?subject=bug%20in%20novice/shell/04-loop.md">Bug Report</a>
+  <a class="bugreport label swc-blue-bg" href="mailto:admin@software-carpentry.org?subject=bug%20in%20novice/shell/04-loop.md">Bug Report</a>
 </div>
 
     </div>

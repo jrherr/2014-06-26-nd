@@ -39,7 +39,7 @@
 but things can go wrong for other reasons,
 like missing or badly-formatted files.
 Most modern programming languages allow programmers to use
-<a href="../gloss.html#exception">exceptions</a> to separate
+<a href="../../gloss.html#exception">exceptions</a> to separate
 what the program should do if everything goes right
 from what it should do if something goes wrong.
 Doing this makes both cases easier to read and understand.</p>
@@ -49,12 +49,12 @@ here&#39;s a small piece of code that tries to read parameters and a grid from t
 separate files,
 and reports an error if either goes wrong:</p>
 
-<pre><code>try:
-params = read_params(param_file)
-grid = read_grid(grid_file)
+<pre class="in"><code>try:
+    params = read_params(param_file)
+    grid = read_grid(grid_file)
 except:
-log.error('Failed to read input file(s)')
-sys.exit(ERROR)
+    log.error('Failed to read input file(s)')
+    sys.exit(ERROR)
 </code></pre>
 
 <p>We join the normal case and the error-handling code using the keywords <code>try</code> and
@@ -74,19 +74,20 @@ trying to open a nonexistent file triggers a type of exception called an
 while trying to access a list element that doesn&#39;t exist
 causes an <code>IndexError</code>:</p>
 
-<pre><code>open('nonexistent-file.txt', 'r')
-&lt;span class="err"&gt;---------------------------------------------------------------------------
+<pre class="in"><code>open('nonexistent-file.txt', 'r')
+</code></pre>
+<pre class="err"><code>---------------------------------------------------------------------------
 IOError                                   Traceback (most recent call last)
 
 &lt;ipython-input-13-58cbde3dd63c&gt; in &lt;module&gt;()
 ----&gt; 1 open('nonexistent-file.txt', 'r')
 
 IOError: [Errno 2] No such file or directory: 'nonexistent-file.txt'
-
-values = [0, 1, 2]
+</code></pre>
+<pre class="in"><code>values = [0, 1, 2]
 print values[999]
-
-&lt;span class="err"&gt;---------------------------------------------------------------------------
+</code></pre>
+<pre class="err"><code>---------------------------------------------------------------------------
 IndexError                                Traceback (most recent call last)
 
 &lt;ipython-input-14-7fed13afc650&gt; in &lt;module&gt;()
@@ -99,11 +100,12 @@ IndexError: list index out of range
 <p>We can use <code>try</code> and <code>except</code> to deal with these errors ourselves
 if we don&#39;t want the program simply to fall over:</p>
 
-<pre><code>try:
-reader = open('nonexistent-file.txt', 'r')
+<pre class="in"><code>try:
+    reader = open('nonexistent-file.txt', 'r')
 except IOError:
-print 'Whoops!'
-&lt;span class="err"&gt;Whoops!
+    print 'Whoops!'
+</code></pre>
+<pre class="err"><code>Whoops!
 </code></pre>
 
 <p>When Python executes this code,
@@ -114,7 +116,7 @@ though,
 Python compares the type of the exception to the type specified by the <code>except</code>.
 If they match, it executes the code in the <code>except</code> block.</p>
 
-<p><code>IOError</code> is the particular kind of exception Python raises
+<p><code>IOError</code> is the particular kind of exception Python uses
 when there is a problem related to input and output,
 such as files not existing
 or the program not having the permissions it needs to read them.
@@ -124,16 +126,15 @@ We can also handle several different kinds of errors afterward.
 For example,
 here&#39;s some code to calculate the entropy at each point in a grid:</p>
 
-<pre><code>python
-try:
-params = read_params(param_file)
-grid = read_grid(grid_file)
-entropy = lee_entropy(params, grid)
-write_entropy(entropy_file, entropy)
+<pre class="in"><code>try:
+    params = read_params(param_file)
+    grid = read_grid(grid_file)
+    entropy = lee_entropy(params, grid)
+    write_entropy(entropy_file, entropy)
 except IOError:
-report_error_and_exit('IO error')
+    report_error_and_exit('IO error')
 except ArithmeticError:
-report_error_and_exit('Arithmetic error')
+    report_error_and_exit('Arithmetic error')
 </code></pre>
 
 <p>Python tries to run the four functions inside the <code>try</code> as normal.
@@ -155,16 +156,15 @@ which file caused the problem.
 We can do better if we capture and hang on to the object that Python creates
 to record information about the error:</p>
 
-<pre><code>python
-try:
-params = read_params(param_file)
-grid = read_grid(grid_file)
-entropy = lee_entropy(params, grid)
-write_entropy(entropy_file, entropy)
+<pre class="in"><code>try:
+    params = read_params(param_file)
+    grid = read_grid(grid_file)
+    entropy = lee_entropy(params, grid)
+    write_entropy(entropy_file, entropy)
 except IOError as err:
-report_error_and_exit('Cannot read/write' + err.filename)
+    report_error_and_exit('Cannot read/write' + err.filename)
 except ArithmeticError as err:
-report_error_and_exit(err.message)
+    report_error_and_exit(err.message)
 </code></pre>
 
 <p>If something goes wrong in the <code>try</code>,
@@ -190,21 +190,19 @@ For example,
 if this code can&#39;t read the grid file that the user has asked for,
 it creates a default grid instead:</p>
 
-<pre><code>python
-try:
-grid = read_grid(grid_file)
+<pre class="in"><code>try:
+    grid = read_grid(grid_file)
 except IOError:
-grid = default_grid()
+    grid = default_grid()
 </code></pre>
 
 <p>Other programmers would explicitly test for the grid file,
 and use <code>if</code> and <code>else</code> for control flow:</p>
 
-<pre><code>python
-if file_exists(grid_file):
-grid = read_grid(grid_file)
+<pre class="in"><code>if file_exists(grid_file):
+    grid = read_grid(grid_file)
 else:
-grid = default_grid()
+    grid = default_grid()
 </code></pre>
 
 <p>It&#39;s mostly a matter of taste,
@@ -218,23 +216,22 @@ instead of <code>try</code> and <code>except</code>
 sends different signals to anyone reading our code,
 even if they do the same thing.</p>
 
-<p>Novices often ask another question about exception handling style as well,
+<p>Novices often ask another question about exception handling style,
 but before we address it,
 there&#39;s something in our example that you might not have noticed.
 Exceptions can actually be thrown a long way:
 they don&#39;t have to be handled immediately.
 Take another look at this code:</p>
 
-<pre><code>python
-try:
-params = read_params(param_file)
-grid = read_grid(grid_file)
-entropy = lee_entropy(params, grid)
-write_entropy(entropy_file, entropy)
+<pre class="in"><code>try:
+    params = read_params(param_file)
+    grid = read_grid(grid_file)
+    entropy = lee_entropy(params, grid)
+    write_entropy(entropy_file, entropy)
 except IOError as err:
-report_error_and_exit('Cannot read/write' + err.filename)
+    report_error_and_exit('Cannot read/write' + err.filename)
 except ArithmeticError as err:
-report_error_and_exit(err.message)
+    report_error_and_exit(err.message)
 </code></pre>
 
 <p>The four lines in the <code>try</code> block are all function calls.
@@ -262,7 +259,7 @@ the library doesn&#39;t know if the program that&#39;s calling it is being run f
 command line or from a GUI.
 The library therefore shouldn&#39;t try to handle or report errors itself,
 because it has no way of knowing what the right way to do this is.
-It should instead just raise an exception,
+It should instead just <a href="../../gloss.html#raise-exception">raise</a> an exception,
 and let its caller figure out how best to handle it.</p>
 
 <p>Finally,
@@ -274,7 +271,7 @@ Here,
 for example,
 is a function that reads a grid and checks its consistency:</p>
 
-<pre><code>def read_grid(grid_file):
+<pre class="in"><code>def read_grid(grid_file):
     data = read_raw_data(grid_file)
     if not grid_consistent(data):
         raise Exception('Inconsistent grid: ' + grid_file)
@@ -299,13 +296,13 @@ which is outside the scope of these lessons.</p>
       </div>
 
       <div class="footer">
-  <a class="label swc-blue-bg" href="https://www.facebook.com/SoftwareCarpentry">Facebook</a>
-  <a class="label swc-blue-bg" href="https://plus.google.com/+Software-carpentryOrg">Google+</a>
+  <a class="label swc-blue-bg" href="admin@software-carpentry.org">Email</a>
   <a class="label swc-blue-bg" href="https://twitter.com/swcarpentry">Twitter</a>
-  <a class="label swc-blue-bg" href="https://github.com/swcarpentry">GitHub</a>
   <a class="label swc-blue-bg" href="http://software-carpentry.org/feed.xml">RSS</a>
+  <a class="label swc-blue-bg" href="https://github.com/swcarpentry">GitHub</a>
+  <a class="label swc-blue-bg" href="irc://moznet/sciencelab">IRC</a>
   <a class="label swc-blue-bg" href="../../LICENSE.html">License</a>
-  <a class="bugreport label swc-blue-bg" href="mailto:info@software-carpentry.org?subject=bug%20in%20novice/extras/07-exceptions.md">Bug Report</a>
+  <a class="bugreport label swc-blue-bg" href="mailto:admin@software-carpentry.org?subject=bug%20in%20novice/extras/07-exceptions.md">Bug Report</a>
 </div>
 
     </div>

@@ -2,13 +2,12 @@
 layout: lesson
 root: ../..
 title: Exceptions
-level: novice
 ---
 Assertions help us catch errors in our code,
 but things can go wrong for other reasons,
 like missing or badly-formatted files.
 Most modern programming languages allow programmers to use
-[exceptions](../gloss.html#exception) to separate
+[exceptions](../../gloss.html#exception) to separate
 what the program should do if everything goes right
 from what it should do if something goes wrong.
 Doing this makes both cases easier to read and understand.
@@ -20,12 +19,13 @@ and reports an error if either goes wrong:
 
 ~~~
 try:
-params = read_params(param_file)
-grid = read_grid(grid_file)
+    params = read_params(param_file)
+    grid = read_grid(grid_file)
 except:
-log.error('Failed to read input file(s)')
-sys.exit(ERROR)
+    log.error('Failed to read input file(s)')
+    sys.exit(ERROR)
 ~~~
+{:class="in"}
 
 We join the normal case and the error-handling code using the keywords `try` and
 `except`.
@@ -46,18 +46,25 @@ causes an `IndexError`:
 
 ~~~
 open('nonexistent-file.txt', 'r')
-<span class="err">---------------------------------------------------------------------------
+~~~
+{:class="in"}
+~~~
+---------------------------------------------------------------------------
 IOError                                   Traceback (most recent call last)
 
 <ipython-input-13-58cbde3dd63c> in <module>()
 ----> 1 open('nonexistent-file.txt', 'r')
 
 IOError: [Errno 2] No such file or directory: 'nonexistent-file.txt'
-
+~~~
+{:class="err"}
+~~~
 values = [0, 1, 2]
 print values[999]
-
-<span class="err">---------------------------------------------------------------------------
+~~~
+{:class="in"}
+~~~
+---------------------------------------------------------------------------
 IndexError                                Traceback (most recent call last)
 
 <ipython-input-14-7fed13afc650> in <module>()
@@ -66,17 +73,22 @@ IndexError                                Traceback (most recent call last)
 
 IndexError: list index out of range
 ~~~
+{:class="err"}
 
 We can use `try` and `except` to deal with these errors ourselves
 if we don't want the program simply to fall over:
 
 ~~~
 try:
-reader = open('nonexistent-file.txt', 'r')
+    reader = open('nonexistent-file.txt', 'r')
 except IOError:
-print 'Whoops!'
-<span class="err">Whoops!
+    print 'Whoops!'
 ~~~
+{:class="in"}
+~~~
+Whoops!
+~~~
+{:class="err"}
 
 When Python executes this code,
 it runs the statement inside the `try`.
@@ -86,7 +98,7 @@ though,
 Python compares the type of the exception to the type specified by the `except`.
 If they match, it executes the code in the `except` block.
 
-`IOError` is the particular kind of exception Python raises
+`IOError` is the particular kind of exception Python uses
 when there is a problem related to input and output,
 such as files not existing
 or the program not having the permissions it needs to read them.
@@ -97,17 +109,17 @@ For example,
 here's some code to calculate the entropy at each point in a grid:
 
 ~~~
-python
 try:
-params = read_params(param_file)
-grid = read_grid(grid_file)
-entropy = lee_entropy(params, grid)
-write_entropy(entropy_file, entropy)
+    params = read_params(param_file)
+    grid = read_grid(grid_file)
+    entropy = lee_entropy(params, grid)
+    write_entropy(entropy_file, entropy)
 except IOError:
-report_error_and_exit('IO error')
+    report_error_and_exit('IO error')
 except ArithmeticError:
-report_error_and_exit('Arithmetic error')
+    report_error_and_exit('Arithmetic error')
 ~~~
+{:class="in"}
 
 Python tries to run the four functions inside the `try` as normal.
 If an error occurs in any of them,
@@ -129,17 +141,17 @@ We can do better if we capture and hang on to the object that Python creates
 to record information about the error:
 
 ~~~
-python
 try:
-params = read_params(param_file)
-grid = read_grid(grid_file)
-entropy = lee_entropy(params, grid)
-write_entropy(entropy_file, entropy)
+    params = read_params(param_file)
+    grid = read_grid(grid_file)
+    entropy = lee_entropy(params, grid)
+    write_entropy(entropy_file, entropy)
 except IOError as err:
-report_error_and_exit('Cannot read/write' + err.filename)
+    report_error_and_exit('Cannot read/write' + err.filename)
 except ArithmeticError as err:
-report_error_and_exit(err.message)
+    report_error_and_exit(err.message)
 ~~~
+{:class="in"}
 
 If something goes wrong in the `try`,
 Python creates an exception object,
@@ -165,23 +177,23 @@ if this code can't read the grid file that the user has asked for,
 it creates a default grid instead:
 
 ~~~
-python
 try:
-grid = read_grid(grid_file)
+    grid = read_grid(grid_file)
 except IOError:
-grid = default_grid()
+    grid = default_grid()
 ~~~
+{:class="in"}
 
 Other programmers would explicitly test for the grid file,
 and use `if` and `else` for control flow:
 
 ~~~
-python
 if file_exists(grid_file):
-grid = read_grid(grid_file)
+    grid = read_grid(grid_file)
 else:
-grid = default_grid()
+    grid = default_grid()
 ~~~
+{:class="in"}
 
 It's mostly a matter of taste,
 but we prefer the second style.
@@ -194,7 +206,7 @@ instead of `try` and `except`
 sends different signals to anyone reading our code,
 even if they do the same thing.
 
-Novices often ask another question about exception handling style as well,
+Novices often ask another question about exception handling style,
 but before we address it,
 there's something in our example that you might not have noticed.
 Exceptions can actually be thrown a long way:
@@ -202,17 +214,17 @@ they don't have to be handled immediately.
 Take another look at this code:
 
 ~~~
-python
 try:
-params = read_params(param_file)
-grid = read_grid(grid_file)
-entropy = lee_entropy(params, grid)
-write_entropy(entropy_file, entropy)
+    params = read_params(param_file)
+    grid = read_grid(grid_file)
+    entropy = lee_entropy(params, grid)
+    write_entropy(entropy_file, entropy)
 except IOError as err:
-report_error_and_exit('Cannot read/write' + err.filename)
+    report_error_and_exit('Cannot read/write' + err.filename)
 except ArithmeticError as err:
-report_error_and_exit(err.message)
+    report_error_and_exit(err.message)
 ~~~
+{:class="in"}
 
 The four lines in the `try` block are all function calls.
 They might catch and handle exceptions themselves,
@@ -239,7 +251,7 @@ the library doesn't know if the program that's calling it is being run from the
 command line or from a GUI.
 The library therefore shouldn't try to handle or report errors itself,
 because it has no way of knowing what the right way to do this is.
-It should instead just raise an exception,
+It should instead just [raise](../../gloss.html#raise-exception) an exception,
 and let its caller figure out how best to handle it.
 
 Finally,
@@ -259,6 +271,7 @@ def read_grid(grid_file):
     result = normalize_grid(data)
     return result
 ~~~
+{:class="in"}
 
 The `raise` statement creates a new exception with a meaningful error message.
 Since `read_grid` itself doesn't contain a `try`/`except` block,

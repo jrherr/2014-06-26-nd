@@ -2,7 +2,6 @@
 layout: lesson
 root: ../..
 title: Collaborating
-level: novice
 ---
 <div class="objectives" markdown="1">
 
@@ -18,7 +17,7 @@ when we begin to collaborate with other people.
 We already have most of the machinery we need to do this;
 the only thing missing is to copy changes from one repository to another.
 
-Systems like Git and Mercurial allow us to move work between any two repositories.
+Systems like Git allow us to move work between any two repositories.
 In practice,
 though,
 it's easiest to use one copy as a central hub,
@@ -49,6 +48,7 @@ $ mkdir planets
 $ cd planets
 $ git init
 ~~~
+{:class="in"}
 
 Our local repository still contains our earlier work on `mars.txt`,
 but the remote repository on GitHub doesn't contain any files yet:
@@ -56,7 +56,7 @@ but the remote repository on GitHub doesn't contain any files yet:
 <img src="img/git-freshly-made-github-repo.svg" alt="Freshly-Made GitHub Repository" />
 
 The next step is to connect the two repositories.
-We do this by making the GitHub repository a [remote](../gloss.html#repository-remote)
+We do this by making the GitHub repository a [remote](../../gloss.html#repository-remote)
 for the local repository.
 The home page of the repository on GitHub includes
 the string we need to identify it:
@@ -76,6 +76,7 @@ and run this command:
 ~~~
 $ git remote add origin https://github.com/vlad/planets
 ~~~
+{:class="in"}
 
 Make sure to use the URL for your repository rather than Vlad's:
 the only difference should be your username instead of `vlad`.
@@ -84,9 +85,13 @@ We can check that the command has worked by running `git remote -v`:
 
 ~~~
 $ git remote -v
+~~~
+{:class="in"}
+~~~
 origin   https://github.com/vlad/planets.git (push)
 origin   https://github.com/vlad/planets.git (fetch)
 ~~~
+{:class="out"}
 
 The name `origin` is a local nickname for your remote repository:
 we could use something else if we wanted to,
@@ -98,6 +103,9 @@ to the repository on GitHub:
 
 ~~~
 $ git push origin master
+~~~
+{:class="in"}
+~~~
 Counting objects: 9, done.
 Delta compression using up to 4 threads.
 Compressing objects: 100% (6/6), done.
@@ -107,6 +115,7 @@ To https://github.com/vlad/planets
  * [new branch]      master -> master
 Branch master set up to track remote branch master from origin.
 ~~~
+{:class="out"}
 
 Our local and remote repositories are now in this state:
 
@@ -122,10 +131,14 @@ We can pull changes from the remote repository to the local one as well:
 
 ~~~
 $ git pull origin master
+~~~
+{:class="in"}
+~~~
 From https://github.com/vlad/planets
  * branch            master     -> FETCH_HEAD
 Already up-to-date.
 ~~~
+{:class="out"}
 
 Pulling has no effect in this case
 because the two repositories are already synchronized.
@@ -139,12 +152,13 @@ To do this,
 (Note the absolute path:
 don't make `tmp` a subdirectory of the existing repository).
 Instead of creating a new repository here with `git init`,
-we will [clone](../gloss.html#repository-clone) the existing repository from GitHub:
+we will [clone](../../gloss.html#repository-clone) the existing repository from GitHub:
 
 ~~~
 $ cd /tmp
 $ git clone https://github.com/vlad/planets.git
 ~~~
+{:class="in"}
 
 `git clone` creates a fresh local copy of a remote repository.
 (We did it in `/tmp` or some other directory so that we don't overwrite our existing `planets` directory.)
@@ -158,17 +172,30 @@ Let's make a change in the copy in `/tmp/planets`:
 $ cd /tmp/planets
 $ nano pluto.txt
 $ cat pluto.txt
+~~~
+{:class="in"}
+~~~
 It is so a planet!
+~~~
+{:class="out"}
+~~~
 $ git add pluto.txt
 $ git commit -m "Some notes about Pluto"
+~~~
+{:class="in"}
+~~~
  1 file changed, 1 insertion(+)
  create mode 100644 pluto.txt
 ~~~
+{:class="out"}
 
 then push the change to GitHub:
 
 ~~~
 $ git push origin master
+~~~
+{:class="in"}
+~~~
 Counting objects: 4, done.
 Delta compression using up to 4 threads.
 Compressing objects: 100% (2/2), done.
@@ -177,6 +204,7 @@ Total 3 (delta 0), reused 0 (delta 0)
 To https://github.com/vlad/planets.git
    9272da5..29aba7c  master -> master
 ~~~
+{:class="out"}
 
 Note that we didn't have to create a remote called `origin`:
 Git does this automatically,
@@ -194,6 +222,9 @@ We can now download changes into the original repository on our machine:
 ~~~
 $ cd ~/planets
 $ git pull origin master
+~~~
+{:class="in"}
+~~~
 remote: Counting objects: 4, done.
 remote: Compressing objects: 100% (2/2), done.
 remote: Total 3 (delta 0), reused 3 (delta 0)
@@ -206,6 +237,7 @@ Fast-forward
  1 file changed, 1 insertion(+)
  create mode 100644 pluto.txt
 ~~~
+{:class="out"}
 
 which gives us this:
 
@@ -232,15 +264,11 @@ to share work between different people and machines.
 
 </div>
 
-<div class="challenges" markdown="1">
-
-#### Challenges
-
-1.  Create a repository on GitHub,
-    clone it,
-    add a file,
-    push those changes to GitHub,
-    and then look at the [timestamp](../../gloss.html#timestamp) of the change on GitHub.
-    How does GitHub record times, and why?
-
+<div class="challenge" markdown="1">
+Create a repository on GitHub,
+clone it,
+add a file,
+push those changes to GitHub,
+and then look at the [timestamp](../../gloss.html#timestamp) of the change on GitHub.
+How does GitHub record times, and why?
 </div>
