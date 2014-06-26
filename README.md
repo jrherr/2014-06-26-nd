@@ -1,4 +1,3 @@
-2014-06-26-nd
-=============
+#### Software Carpentry Bootcamp at Notre Dame University
 
-Software Carpentry Bootcamp on June 26th-27th, 2014, at Notre Dame University
+Please see [bootcamp webpage](http://jrherr.github.io/2014-06-26-nd/) for more information.
