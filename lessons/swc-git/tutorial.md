@@ -42,64 +42,6 @@ No matter which system you use,
 the most important thing to learn is not the details of their more obscure commands,
 but the workflow that they encourage.
 
-## For Instructors
-
-Version control is the most important practical skill we introduce.
-Provided there aren't network problems,
-each half of the lesson can be covered in about an hour,
-but don't rush:
-as the last paragraph of the introduction above says,
-the workflow matters more than the ins and outs of any particular tool.
-By the end,
-the instructor should be able to get learners to chant,
-"Branch, edit, commit, merge" in unison,
-and have them understand what those terms mean
-and why that's a good way to structure their working day.
-
-Here's some guidance for teaching this material:
-
-- Make sure the network is working <em>before</em> starting this lesson.
-- Give learners a ten-minute overview of what version control does for them
-  before diving into the watch-and-do practicals.
-  Most of them will have tried to co-author papers by emailing files back and forth
-  (or in more recent years using cloud storage with file synchronization,
-  e.g. Dropbox, Google Drive, ...),
-  or will have biked into the office
-  only to realize that the USB key with last night's work
-  is still on the kitchen table.
-  Instructors can also make jokes about directories with names like
-  "final version",
-  "final version revised",
-  "final version with reviewer three's corrections",
-  "really final version",
-  and,
-  "come on this really has to be the last version"
-  to motivate version control as a better way to collaborate
-  and as a better way to back work up.
-- Version control is typically taught after the shell,
-  so collect learners' names during that session
-  and create a repository for them to share
-  with their names as both their IDs and their passwords.
-  The easiest way to create the repository is to use GitHub;
-  if they don't already understand SSH,
-  stick to using the HTTP protocol for everything.
-- Be very clear what files learners are to edit
-  and what user IDs they are to use
-  when giving instructions.
-  It is common for them to edit the instructor's biography,
-  or to use the instructor's user ID and password when committing.
-  Be equally clear *when* they are to edit things:
-  it's also common for someone to edit the file the instructor is editing
-  and commit changes while the instructor is explaining what's going on,
-  so that a conflict occurs when the instructor comes to commit the file.
-- Learners could do most exercises with repositories on their own machines,
-  but it's hard for them to see how version control helps collaboration
-  unless they're sharing a repository with other learners.
-
-## Prerequisites
-
-Basic shell concepts and skills (`ls`, `cd`, `mkdir`, editing files).
-
 ## A Better Backup
 
 Git was built by programmers for programmers,
@@ -120,18 +62,18 @@ our name,
 our email address,
 and that we want it to colorize output.
 
-There are a few more configuration variables to set depending on your OS. First, 
+There are a few more configuration variables to set depending on your OS. First,
 choose a text editor. We recommend that novices use [GNU
 nano](http://en.wikipedia.org/wiki/GNU_nano) because it's easy to use and
 works in most operating systems. Some other options
 might be TextEdit on the Mac, gedit on GNU/Linux or Notepad on Windows. The
 default on many systems is vi, which is not a friendly text editor for beginners.
 If they've installed a better editor for the workshop, use that instead.
-Make sure the editor runs from the command line as configured; use a full path if necessary. 
+Make sure the editor runs from the command line as configured; use a full path if necessary.
 
     $ git config --global core.editor "nano"
 
-The second OS-specific option deals with the different handling of line endings. If they ever collaborate 
+The second OS-specific option deals with the different handling of line endings. If they ever collaborate
 with a computer on another OS, this configuration will prevent headaches.
 
 On Mac:
@@ -252,7 +194,7 @@ we can ask it about their history:
     commit f22b25e3233b4645dabd0d81e651fe074bd8e73b
     Author: Vlad Dracula <vlad@tran.sylvan.ia>
     Date:   Thu Aug 22 09:51:46 2013 -0400
-    
+
         Starting to think about Mars
 
 Now suppose Dracula adds more information to the file
@@ -405,19 +347,19 @@ and look at the history of what we've done so far:
     commit 005937fbe2a98fb83f0ade869025dc2636b4dad5
     Author: Vlad Dracula <vlad@tran.sylvan.ia>
     Date:   Thu Aug 22 10:14:07 2013 -0400
-    
+
         Thoughts about the climate
-    
+
     commit 34961b159c27df3b475cfe4415d94a6d1fcd064d
     Author: Vlad Dracula <vlad@tran.sylvan.ia>
     Date:   Thu Aug 22 10:07:21 2013 -0400
-    
+
         Concerns about Mars's moons on my furry friend
-    
+
     commit f22b25e3233b4645dabd0d81e651fe074bd8e73b
     Author: Vlad Dracula <vlad@tran.sylvan.ia>
     Date:   Thu Aug 22 09:51:46 2013 -0400
-    
+
         Starting to think about Mars
 
 If we want to see what we changed when,
@@ -434,7 +376,7 @@ using the notation `HEAD~1`, `HEAD~2`, and so on:
      Cold and dry, but everything is my favorite color
      The two moons may be a problem for Wolfman
     +But the Mummy will appreciate the lack of humidity
-    
+
     $ git diff HEAD~2 mars.txt
     diff --git a/mars.txt b/mars.txt
     index df0654a..b36abfd 100644
@@ -543,19 +485,19 @@ Here's where we are right now:
     commit 005937fbe2a98fb83f0ade869025dc2636b4dad5
     Author: Vlad Dracula <vlad@tran.sylvan.ia>
     Date:   Thu Aug 22 10:14:07 2013 -0400
-    
+
         Thoughts about the climate
-    
+
     commit 34961b159c27df3b475cfe4415d94a6d1fcd064d
     Author: Vlad Dracula <vlad@tran.sylvan.ia>
     Date:   Thu Aug 22 10:07:21 2013 -0400
-    
+
         Concerns about Mars's moons on my furry friend
-    
+
     commit f22b25e3233b4645dabd0d81e651fe074bd8e73b
     Author: Vlad Dracula <vlad@tran.sylvan.ia>
     Date:   Thu Aug 22 09:51:46 2013 -0400
-    
+
         Starting to think about Mars
     $ cat mars.txt
     Cold and dry, but everything is my favorite color
@@ -708,7 +650,7 @@ Git opens an editor to let us write a log entry about what we're doing.
 The editor session initially contains this:
 
     Merge branch 'moons'
-    
+
     # Please enter a commit message to explain why this merge is necessary,
     # especially if it merges an updated upstream into a topic branch.
     #
@@ -964,7 +906,7 @@ we don't have to fix things by hand again:
     Fast-forward
      moons.txt | 2 +-
      1 file changed, 1 insertion(+), 1 deletion(-)
-    $ cat moons.txt 
+    $ cat moons.txt
     Phobos is larger than Deimos
     Lines added in the master and moons branches
 
