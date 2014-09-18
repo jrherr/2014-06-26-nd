@@ -75,66 +75,6 @@ No matter which system you use,
 the most important thing to learn is not the details of their more obscure commands,
 but the workflow that they encourage.</p>
 
-<h2 id="for-instructors">For Instructors</h2>
-
-<p>Version control is the most important practical skill we introduce.
-Provided there aren&#39;t network problems,
-each half of the lesson can be covered in about an hour,
-but don&#39;t rush:
-as the last paragraph of the introduction above says,
-the workflow matters more than the ins and outs of any particular tool.
-By the end,
-the instructor should be able to get learners to chant,
-&quot;Branch, edit, commit, merge&quot; in unison,
-and have them understand what those terms mean
-and why that&#39;s a good way to structure their working day.</p>
-
-<p>Here&#39;s some guidance for teaching this material:</p>
-
-<ul>
-  <li>Make sure the network is working <em>before</em> starting this lesson.</li>
-  <li>Give learners a ten-minute overview of what version control does for them
-before diving into the watch-and-do practicals.
-Most of them will have tried to co-author papers by emailing files back and forth
-(or in more recent years using cloud storage with file synchronization,
-e.g. Dropbox, Google Drive, &#8230;),
-or will have biked into the office
-only to realize that the USB key with last night&#39;s work
-is still on the kitchen table.
-Instructors can also make jokes about directories with names like
-&quot;final version&quot;,
-&quot;final version revised&quot;,
-&quot;final version with reviewer three&#39;s corrections&quot;,
-&quot;really final version&quot;,
-and,
-&quot;come on this really has to be the last version&quot;
-to motivate version control as a better way to collaborate
-and as a better way to back work up.</li>
-  <li>Version control is typically taught after the shell,
-so collect learners&#39; names during that session
-and create a repository for them to share
-with their names as both their IDs and their passwords.
-The easiest way to create the repository is to use GitHub;
-if they don&#39;t already understand SSH,
-stick to using the HTTP protocol for everything.</li>
-  <li>Be very clear what files learners are to edit
-and what user IDs they are to use
-when giving instructions.
-It is common for them to edit the instructor&#39;s biography,
-or to use the instructor&#39;s user ID and password when committing.
-Be equally clear <em>when</em> they are to edit things:
-it&#39;s also common for someone to edit the file the instructor is editing
-and commit changes while the instructor is explaining what&#39;s going on,
-so that a conflict occurs when the instructor comes to commit the file.</li>
-  <li>Learners could do most exercises with repositories on their own machines,
-but it&#39;s hard for them to see how version control helps collaboration
-unless they&#39;re sharing a repository with other learners.</li>
-</ul>
-
-<h2 id="prerequisites">Prerequisites</h2>
-
-<p>Basic shell concepts and skills (<code>ls</code>, <code>cd</code>, <code>mkdir</code>, editing files).</p>
-
 <h2 id="a-better-backup">A Better Backup</h2>
 
 <p>Git was built by programmers for programmers,
@@ -156,19 +96,19 @@ our name,
 our email address,
 and that we want it to colorize output.</p>
 
-<p>There are a few more configuration variables to set depending on your OS. First, 
+<p>There are a few more configuration variables to set depending on your OS. First,
 choose a text editor. We recommend that novices use <a href="http://en.wikipedia.org/wiki/GNU_nano">GNU
 nano</a> because it&#39;s easy to use and
 works in most operating systems. Some other options
 might be TextEdit on the Mac, gedit on GNU/Linux or Notepad on Windows. The
 default on many systems is vi, which is not a friendly text editor for beginners.
 If they&#39;ve installed a better editor for the workshop, use that instead.
-Make sure the editor runs from the command line as configured; use a full path if necessary. </p>
+Make sure the editor runs from the command line as configured; use a full path if necessary.</p>
 
 <pre><code>$ git config --global core.editor "nano"
 </code></pre>
 
-<p>The second OS-specific option deals with the different handling of line endings. If they ever collaborate 
+<p>The second OS-specific option deals with the different handling of line endings. If they ever collaborate
 with a computer on another OS, this configuration will prevent headaches.</p>
 
 <p>On Mac:</p>
@@ -1065,7 +1005,7 @@ Updating 5ae9631..2f20801
 Fast-forward
  moons.txt | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
-$ cat moons.txt 
+$ cat moons.txt
 Phobos is larger than Deimos
 Lines added in the master and moons branches
 </code></pre>
